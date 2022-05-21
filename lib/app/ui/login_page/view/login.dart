@@ -1,10 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wapper/app/ui/login_page/controller/login_controller.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
-import 'package:wapper/app/ui/utils/notificacao.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -42,7 +39,7 @@ class Login extends StatelessWidget {
                     children: [
                       Container(
                         height: 40,
-                        width: 268,
+                        width: Get.width / 1.5,
                         decoration: BoxDecoration(color: backgroundFieldColor, borderRadius: BorderRadius.circular(15.0)),
                         child: TextFormField(
                           controller: controller.email,
@@ -67,7 +64,7 @@ class Login extends StatelessWidget {
                       ),
                       Container(
                         height: 40,
-                        width: 268,
+                        width: Get.width / 1.5,
                         decoration: BoxDecoration(color: backgroundFieldColor, borderRadius: BorderRadius.circular(15.0)),
                         child: TextFormField(
                           controller: controller.senha,
@@ -93,7 +90,7 @@ class Login extends StatelessWidget {
                         height: 21,
                       ),
                       SizedBox(
-                        width: 262,
+                        width: Get.width / 1.5,
                         height: 40,
                         child: TextButton(
                           onPressed: () async {
@@ -123,46 +120,51 @@ class Login extends StatelessWidget {
                         height: 82,
                       ),
                       SizedBox(
-                        width: 262,
                         height: 40,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(backgroundFieldColor),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                              ),
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'lib/app/assets/img/google.png',
-                                width: 31,
-                                height: 33,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Entrar com minha conta Google',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 14,
-                                  color: fontColor,
-                                  fontWeight: FontWeight.bold,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(backgroundFieldColor),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  ),
                                 ),
                               ),
-                            ],
-                          ),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'lib/app/assets/img/google.png',
+                                    width: 31,
+                                    height: 33,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Entrar com minha conta Google',
+                                    style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 14,
+                                      color: fontColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(
                         height: 21,
                       ),
                       SizedBox(
-                        width: 165,
+                        width: Get.width / 2.4,
                         height: 40,
                         child: TextButton(
                           onPressed: () {},
@@ -189,47 +191,52 @@ class Login extends StatelessWidget {
                         height: 92,
                       ),
                       SizedBox(
-                        width: 272,
                         height: 57,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(backgroundFieldColor),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                              ),
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'lib/app/assets/img/foguete.png',
-                                width: 48,
-                                height: 48,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Quero ser parceiro',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 18,
-                                  color: azulPadrao,
-                                  fontWeight: FontWeight.bold,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(backgroundFieldColor),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  ),
                                 ),
                               ),
-                              const SizedBox(
-                                width: 10,
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'lib/app/assets/img/foguete.png',
+                                    width: 48,
+                                    height: 48,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Quero ser parceiro',
+                                    style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 18,
+                                      color: azulPadrao,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Image.asset(
+                                    'lib/app/assets/img/prosseguir.png',
+                                    width: 32,
+                                    height: 34,
+                                  ),
+                                ],
                               ),
-                              Image.asset(
-                                'lib/app/assets/img/prosseguir.png',
-                                width: 32,
-                                height: 34,
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

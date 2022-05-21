@@ -37,21 +37,28 @@ class Login extends StatelessWidget {
                   key: controller.formLoginKey,
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 40,
                         width: Get.width / 1.5,
-                        decoration: BoxDecoration(color: backgroundFieldColor, borderRadius: BorderRadius.circular(15.0)),
                         child: TextFormField(
                           controller: controller.email,
                           autofocus: true,
+                          maxLength: 50,
                           decoration: InputDecoration(
-                            border: InputBorder.none,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            fillColor: backgroundFieldColor,
+                            filled: true,
+                            counterText: '',
                             contentPadding: const EdgeInsets.only(top: 5, bottom: 10, left: 10),
                             hintText: 'Email',
                             hintStyle: TextStyle(
                               fontFamily: 'Roboto',
                               color: cinzaPadrao,
                             ),
+                            suffix: const SizedBox(),
                           ),
                           onFieldSubmitted: (value) {
                             FocusScope.of(context).requestFocus(controller.nextFocus);
@@ -62,28 +69,43 @@ class Login extends StatelessWidget {
                       const SizedBox(
                         height: 21,
                       ),
-                      Container(
-                        height: 40,
-                        width: Get.width / 1.5,
-                        decoration: BoxDecoration(color: backgroundFieldColor, borderRadius: BorderRadius.circular(15.0)),
-                        child: TextFormField(
-                          controller: controller.senha,
-                          focusNode: controller.nextFocus,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.only(top: 5, bottom: 10, left: 10),
-                            hintText: 'Senha',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Roboto',
-                              color: cinzaPadrao,
+                      Obx(
+                        () => SizedBox(
+                          height: 40,
+                          width: Get.width / 1.5,
+                          child: TextFormField(
+                            controller: controller.senha,
+                            focusNode: controller.nextFocus,
+                            obscureText: !controller.visibility.value,
+                            maxLength: 25,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              fillColor: backgroundFieldColor,
+                              filled: true,
+                              counterText: '',
+                              contentPadding: const EdgeInsets.only(top: 5, bottom: 10, left: 10),
+                              hintText: 'Senha',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Roboto',
+                                color: cinzaPadrao,
+                              ),
+                              suffixIcon: GestureDetector(
+                                onTap: () => controller.visibility(!controller.visibility.value),
+                                child: Icon(
+                                  !controller.visibility.value ? Icons.visibility : Icons.visibility_off,
+                                  color: cinzaPadrao,
+                                ),
+                              ),
                             ),
+                            cursorColor: fontColor,
+                            onFieldSubmitted: (value) async {
+                              controller.formLoginKey.currentState!.save();
+                              await controller.validaLogin();
+                            },
                           ),
-                          cursorColor: fontColor,
-                          onFieldSubmitted: (value) async {
-                            controller.formLoginKey.currentState!.save();
-                            await controller.validaLogin();
-                          },
                         ),
                       ),
                       const SizedBox(

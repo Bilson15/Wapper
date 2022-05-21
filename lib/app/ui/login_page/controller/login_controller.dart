@@ -8,11 +8,19 @@ class LoginController extends GetxController {
   late TextEditingController senha = TextEditingController();
   GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
   FocusNode nextFocus = FocusNode();
+  var visibility = false.obs;
+
   LoginController();
 
   @override
   void onInit() {
-    // TODO: implement onInit
+    email.addListener(() {
+      Get.closeAllSnackbars();
+    });
+    senha.addListener(() {
+      Get.closeAllSnackbars();
+    });
+
     super.onInit();
   }
 

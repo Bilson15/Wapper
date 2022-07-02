@@ -9,8 +9,9 @@ class TextComponent extends StatelessWidget {
   final double? letterSpacing;
   final TextAlign? textAlign;
   final FontStyle? fontStyle;
+  final String? fontFamily;
   const TextComponent(this.data,
-      {Key? key, this.color, this.fontWeight, this.fontSize, this.letterSpacing, this.fontStyle, this.textAlign})
+      {Key? key, this.color, this.fontWeight, this.fontSize, this.letterSpacing, this.fontStyle, this.textAlign, this.fontFamily})
       : super(key: key);
 
   @override
@@ -20,13 +21,14 @@ class TextComponent extends StatelessWidget {
       data,
       textAlign: textAlign ?? TextAlign.left,
       style: TextStyle(
-          color: color ?? backgroundFieldColor,
-          fontSize: fontSize ?? 18 * media.textScaleFactor,
-          letterSpacing: letterSpacing ?? 0.15,
-          fontStyle: fontStyle ?? FontStyle.normal,
-          fontWeight: fontWeight ?? FontWeight.w500,
-          fontFamily: 'Roboto',
-          decoration: TextDecoration.none),
+        color: color ?? backgroundFieldColor,
+        fontSize: fontSize ?? 18 * media.textScaleFactor,
+        letterSpacing: letterSpacing ?? 0.15,
+        fontStyle: fontStyle ?? FontStyle.normal,
+        fontWeight: fontWeight ?? FontWeight.w500,
+        fontFamily: fontFamily ?? 'Roboto',
+        decoration: TextDecoration.none,
+      ),
     );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wapper/app/ui/components/button_component.dart';
+import 'package:wapper/app/ui/components/form_field_component.dart';
 import 'package:wapper/app/ui/login_page/controller/login_controller.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
+import 'package:wapper/app/ui/utils/validacao_email.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -38,32 +41,22 @@ class Login extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 40,
                         width: Get.width / 1.5,
-                        child: TextFormField(
+                        child: InputFormFieldComponent(
                           controller: controller.email,
                           autofocus: true,
-                          maxLength: 50,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            fillColor: backgroundFieldColor,
-                            filled: true,
-                            counterText: '',
-                            contentPadding: const EdgeInsets.only(top: 5, bottom: 10, left: 10),
-                            hintText: 'Email',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Roboto',
-                              color: cinzaPadrao,
-                            ),
-                            suffix: const SizedBox(),
-                          ),
+                          hintText: 'E-mail',
                           onFieldSubmitted: (value) {
                             FocusScope.of(context).requestFocus(controller.nextFocus);
                           },
-                          cursorColor: fontColor,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'E-mail é obrigatório!';
+                            }
+                            if (!ValidacaoEmail.validarEmail(value)) {
+                              return 'E-mail inválido';
+                            }
+                          },
                         ),
                       ),
                       const SizedBox(
@@ -71,39 +64,29 @@ class Login extends StatelessWidget {
                       ),
                       Obx(
                         () => SizedBox(
-                          height: 40,
                           width: Get.width / 1.5,
-                          child: TextFormField(
-                            controller: controller.senha,
+                          child: InputFormFieldComponent(
                             focusNode: controller.nextFocus,
-                            obscureText: !controller.visibility.value,
-                            maxLength: 25,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              fillColor: backgroundFieldColor,
-                              filled: true,
-                              counterText: '',
-                              contentPadding: const EdgeInsets.only(top: 5, bottom: 10, left: 10),
-                              hintText: 'Senha',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Roboto',
+                            hintText: 'Senha',
+                            suffixIcon: GestureDetector(
+                              onTap: () => controller.visibility(!controller.visibility.value),
+                              child: Icon(
+                                !controller.visibility.value ? Icons.visibility : Icons.visibility_off,
                                 color: cinzaPadrao,
                               ),
-                              suffixIcon: GestureDetector(
-                                onTap: () => controller.visibility(!controller.visibility.value),
-                                child: Icon(
-                                  !controller.visibility.value ? Icons.visibility : Icons.visibility_off,
-                                  color: cinzaPadrao,
-                                ),
-                              ),
                             ),
-                            cursorColor: fontColor,
                             onFieldSubmitted: (value) async {
                               controller.formLoginKey.currentState!.save();
-                              await controller.validaLogin();
+                              controller.formLoginKey.currentState!.validate();
+                              //await controller.validaLogin();
+                            },
+                            controller: controller.senha,
+                            obscureText: !controller.visibility.value,
+                            maxLength: 25,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Senha é obrigatório!';
+                              }
                             },
                           ),
                         ),
@@ -117,7 +100,9 @@ class Login extends StatelessWidget {
                         child: TextButton(
                           onPressed: () async {
                             controller.formLoginKey.currentState!.save();
-                            await controller.validaLogin();
+                            if (controller.formLoginKey.currentState!.validate()) {
+                              await controller.efetuaLogin();
+                            }
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(fontColor),
@@ -188,25 +173,12 @@ class Login extends StatelessWidget {
                       SizedBox(
                         width: Get.width / 2.4,
                         height: 40,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(fontColor),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            'Cadastrar',
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 18,
-                              color: backgroundFieldColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                        child: ButtonComponent(
+                          backgroundColor: fontColor,
+                          titulo: 'Cadastrar',
+                          onPressed: () {
+                            Get.toNamed('/cadastro');
+                          },
                         ),
                       ),
                       const SizedBox(

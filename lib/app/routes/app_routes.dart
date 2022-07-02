@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:wapper/app/ui/cadastro/view/cadastro_cliente.dart';
+import 'package:wapper/app/ui/cadastro/view/cadastro_dados_pessoais.dart';
 import 'package:wapper/app/ui/home_page/view/home_page.dart';
 import 'package:wapper/app/ui/loading/view/loading_view.dart';
 import 'package:wapper/app/ui/login_page/view/login.dart';
@@ -21,6 +23,14 @@ class AppRoutes {
     GetPage(
       name: '/loading',
       page: () => const LoadingView(),
+    ),
+    GetPage(
+      name: '/cadastro',
+      page: () => const CadastroCliente(),
+    ),
+    GetPage(
+      name: '/cadastro-dados-pessoais',
+      page: () => const CadastroDadosPessoais(),
     ),
   ];
 }

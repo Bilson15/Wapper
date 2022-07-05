@@ -49,6 +49,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                     },
                     maxLength: 80,
                     fillColor: lineColor,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(controller.nextDataNasc);
+                    },
                   ),
                   const SizedBox(
                     height: 8,
@@ -67,6 +70,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                               return 'Este campo é obrigatório!';
                             }
                           },
+                          onFieldSubmitted: (value) {
+                            FocusScope.of(context).requestFocus(controller.nextSexo);
+                          },
                           fillColor: lineColor,
                         ),
                       ),
@@ -83,6 +89,8 @@ class CadastroDadosPessoais extends StatelessWidget {
                           onChanged: (value) {
                             controller.sexo.text = value.toString();
                             controller.formKey.currentState!.validate();
+
+                            FocusScope.of(context).requestFocus(controller.nextCpf);
                           },
                           maxHeight: 115,
                           popupItemBuilder: (context, value, verdadeiro) {
@@ -122,6 +130,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                             }
                           },
                           focusNode: controller.nextSexo,
+
                           dropdownSearchBaseStyle: TextStyle(
                             color: fontColor,
                           ),
@@ -163,6 +172,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                   InputFormFieldComponent(
                     controller: controller.cpf,
                     focusNode: controller.nextCpf,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(controller.nextTelefone);
+                    },
                     inputFormatter: [controller.maskFormatter.cpfFormatter()],
                     hintText: 'CPF (Opcional)',
                     keyboardType: TextInputType.number,
@@ -175,6 +187,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                   InputFormFieldComponent(
                     controller: controller.telefone,
                     focusNode: controller.nextTelefone,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(controller.nextCep);
+                    },
                     hintText: 'Telefone',
                     inputFormatter: [controller.maskFormatter.telefoneInputFormmater()],
                     keyboardType: TextInputType.number,
@@ -200,6 +215,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                   InputFormFieldComponent(
                     controller: controller.cep,
                     focusNode: controller.nextCep,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(controller.nextEndereco);
+                    },
                     hintText: 'CEP',
                     inputFormatter: [controller.maskFormatter.cepInputFormmater()],
                     keyboardType: TextInputType.number,
@@ -217,6 +235,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                   InputFormFieldComponent(
                     controller: controller.endereco,
                     focusNode: controller.nextEndereco,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(controller.nextBairro);
+                    },
                     hintText: 'Endereço',
                     maxLength: 100,
                     validator: (value) {
@@ -236,6 +257,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                         child: InputFormFieldComponent(
                           controller: controller.bairro,
                           focusNode: controller.nextBairro,
+                          onFieldSubmitted: (value) {
+                            FocusScope.of(context).requestFocus(controller.nextNumero);
+                          },
                           hintText: 'Bairro',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -253,6 +277,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                         child: InputFormFieldComponent(
                           controller: controller.numero,
                           focusNode: controller.nextNumero,
+                          onFieldSubmitted: (value) {
+                            FocusScope.of(context).requestFocus(controller.nextComplemento);
+                          },
                           hintText: 'Número',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -271,6 +298,10 @@ class CadastroDadosPessoais extends StatelessWidget {
                   InputFormFieldComponent(
                     controller: controller.complemento,
                     focusNode: controller.nextComplemento,
+                    onFieldSubmitted: (value) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      controller.formKey.currentState!.validate();
+                    },
                     hintText: 'Complemento',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -286,7 +317,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                   SizedBox(
                     width: Get.width * 0.70,
                     child: ButtonComponent(
-                      titulo: 'Prosseguir',
+                      titulo: 'Finalizar cadastro',
                       onPressed: () async {
                         if (controller.formKey.currentState!.validate()) {
                           Get.offAllNamed('/loading');

@@ -44,7 +44,6 @@ class Login extends StatelessWidget {
                         width: Get.width / 1.5,
                         child: InputFormFieldComponent(
                           controller: controller.email,
-                          autofocus: true,
                           hintText: 'E-mail',
                           onFieldSubmitted: (value) {
                             FocusScope.of(context).requestFocus(controller.nextFocus);

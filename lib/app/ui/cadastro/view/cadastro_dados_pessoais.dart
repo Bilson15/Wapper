@@ -1,7 +1,10 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wapper/app/ui/cadastro/controller/cadastro_cliente_controller.dart';
+import 'package:wapper/app/ui/cadastro/controller/cadastro_dados_pessoais_controller.dart';
 import 'package:wapper/app/ui/components/button_component.dart';
+import 'package:wapper/app/ui/components/drop_down_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 import 'package:wapper/app/ui/utils/validacao_email.dart';
@@ -14,6 +17,8 @@ class CadastroDadosPessoais extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context);
+    final controller = Get.put(CadastroDadosPessoaisController());
     return Material(
       child: Scaffold(
         appBar: AppBarComponent(title: 'Cadastro'),
@@ -22,6 +27,7 @@ class CadastroDadosPessoais extends StatelessWidget {
           child: SingleChildScrollView(
             controller: ScrollController(),
             child: Form(
+              key: controller.formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -34,13 +40,14 @@ class CadastroDadosPessoais extends StatelessWidget {
                     ),
                   ),
                   InputFormFieldComponent(
-                    autofocus: true,
+                    controller: controller.nome,
                     hintText: 'Nome Completo',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Este campo é obrigatório!';
                       }
                     },
+                    maxLength: 80,
                     fillColor: lineColor,
                   ),
                   const SizedBox(
@@ -50,8 +57,10 @@ class CadastroDadosPessoais extends StatelessWidget {
                     children: [
                       Expanded(
                         child: InputFormFieldComponent(
-                          autofocus: true,
+                          controller: controller.dataNasc,
+                          focusNode: controller.nextDataNasc,
                           hintText: 'Data Nascimento',
+                          inputFormatter: [controller.maskFormatter.dataFormatter()],
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -65,15 +74,85 @@ class CadastroDadosPessoais extends StatelessWidget {
                         width: 8,
                       ),
                       Expanded(
-                        child: InputFormFieldComponent(
-                          autofocus: true,
-                          hintText: 'Sexo',
+                        child: DropdownSearch(
+                          mode: Mode.MENU,
+                          showSearchBox: false,
+                          items: controller.dropdownlist,
+                          selectedItem: 'Gênero',
+
+                          onChanged: (value) {
+                            controller.sexo.text = value.toString();
+                            controller.formKey.currentState!.validate();
+                          },
+                          maxHeight: 115,
+                          popupItemBuilder: (context, value, verdadeiro) {
+                            return Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(
+                                      value.toString(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: cinzaPadrao),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          dropdownBuilder: (context, value) {
+                            return Text(
+                              value.toString(),
+                              style: TextStyle(
+                                  color: cinzaPadrao,
+                                  fontSize: 16 * media.textScaleFactor,
+                                  letterSpacing: 0.15,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w500),
+                            );
+                          },
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
+                            if (controller.sexo.text.toString().isEmpty) {
                               return 'Este campo é obrigatório!';
                             }
                           },
-                          fillColor: lineColor,
+                          focusNode: controller.nextSexo,
+                          dropdownSearchBaseStyle: TextStyle(
+                            color: fontColor,
+                          ),
+                          dropdownSearchDecoration: InputDecoration(
+                            isDense: true,
+                            fillColor: lineColor,
+                            filled: true,
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                          ),
+
+                          dropDownButton: Icon(
+                            Icons.expand_more_rounded,
+                            color: fontColor,
+                          ),
+                          popupBackgroundColor: lineColor, // Cor de fundo para caixa de seleção
+                          showAsSuffixIcons: true,
                         ),
                       ),
                     ],
@@ -82,52 +161,30 @@ class CadastroDadosPessoais extends StatelessWidget {
                     height: 8,
                   ),
                   InputFormFieldComponent(
-                    autofocus: true,
+                    controller: controller.cpf,
+                    focusNode: controller.nextCpf,
+                    inputFormatter: [controller.maskFormatter.cpfFormatter()],
                     hintText: 'CPF (Opcional)',
+                    keyboardType: TextInputType.number,
+                    fillColor: lineColor,
+                    maxLength: 14,
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  InputFormFieldComponent(
+                    controller: controller.telefone,
+                    focusNode: controller.nextTelefone,
+                    hintText: 'Telefone',
+                    inputFormatter: [controller.maskFormatter.telefoneInputFormmater()],
+                    keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Este campo é obrigatório!';
                       }
                     },
-                    keyboardType: TextInputType.number,
+                    maxLength: 15,
                     fillColor: lineColor,
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: InputFormFieldComponent(
-                          autofocus: true,
-                          hintText: 'DDD',
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Este campo é obrigatório!';
-                            }
-                          },
-                          fillColor: lineColor,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: InputFormFieldComponent(
-                          autofocus: true,
-                          hintText: 'Telefone',
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Este campo é obrigatório!';
-                            }
-                          },
-                          fillColor: lineColor,
-                        ),
-                      ),
-                    ],
                   ),
                   const SizedBox(
                     height: 8,
@@ -141,8 +198,10 @@ class CadastroDadosPessoais extends StatelessWidget {
                     ),
                   ),
                   InputFormFieldComponent(
-                    autofocus: true,
+                    controller: controller.cep,
+                    focusNode: controller.nextCep,
                     hintText: 'CEP',
+                    inputFormatter: [controller.maskFormatter.cepInputFormmater()],
                     keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -150,12 +209,14 @@ class CadastroDadosPessoais extends StatelessWidget {
                       }
                     },
                     fillColor: lineColor,
+                    maxLength: 9,
                   ),
                   const SizedBox(
                     height: 8,
                   ),
                   InputFormFieldComponent(
-                    autofocus: true,
+                    controller: controller.endereco,
+                    focusNode: controller.nextEndereco,
                     hintText: 'Endereço',
                     maxLength: 100,
                     validator: (value) {
@@ -173,7 +234,8 @@ class CadastroDadosPessoais extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: InputFormFieldComponent(
-                          autofocus: true,
+                          controller: controller.bairro,
+                          focusNode: controller.nextBairro,
                           hintText: 'Bairro',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -181,6 +243,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                             }
                           },
                           fillColor: lineColor,
+                          maxLength: 35,
                         ),
                       ),
                       const SizedBox(
@@ -188,13 +251,15 @@ class CadastroDadosPessoais extends StatelessWidget {
                       ),
                       Expanded(
                         child: InputFormFieldComponent(
-                          autofocus: true,
+                          controller: controller.numero,
+                          focusNode: controller.nextNumero,
                           hintText: 'Número',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Este campo é obrigatório!';
                             }
                           },
+                          maxLength: 10,
                           fillColor: lineColor,
                         ),
                       ),
@@ -204,13 +269,15 @@ class CadastroDadosPessoais extends StatelessWidget {
                     height: 8,
                   ),
                   InputFormFieldComponent(
-                    autofocus: true,
+                    controller: controller.complemento,
+                    focusNode: controller.nextComplemento,
                     hintText: 'Complemento',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Este campo é obrigatório!';
                       }
                     },
+                    maxLength: 80,
                     fillColor: lineColor,
                   ),
                   const SizedBox(
@@ -221,9 +288,11 @@ class CadastroDadosPessoais extends StatelessWidget {
                     child: ButtonComponent(
                       titulo: 'Prosseguir',
                       onPressed: () async {
-                        Get.offAllNamed('/loading');
-                        await Future.delayed(const Duration(seconds: 5));
-                        Get.offAllNamed('/login');
+                        if (controller.formKey.currentState!.validate()) {
+                          Get.offAllNamed('/loading');
+                          await Future.delayed(const Duration(seconds: 5));
+                          Get.offAllNamed('/login');
+                        }
                       },
                       fontColor: fontColor,
                       backgroundColor: amareloPadrao,

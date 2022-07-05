@@ -23,6 +23,7 @@ class CadastroCliente extends StatelessWidget {
           child: SingleChildScrollView(
             controller: ScrollController(initialScrollOffset: 0),
             child: Form(
+              key: controller.formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -39,8 +40,10 @@ class CadastroCliente extends StatelessWidget {
                   ),
                   InputFormFieldComponent(
                     controller: controller.email,
-                    autofocus: true,
                     hintText: 'E-mail',
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(controller.nextEmailConfirm);
+                    },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'E-mail é obrigatório!';
@@ -56,8 +59,11 @@ class CadastroCliente extends StatelessWidget {
                   ),
                   InputFormFieldComponent(
                     controller: controller.emailConfirma,
-                    autofocus: true,
                     hintText: 'Confirmar E-mail',
+                    focusNode: controller.nextEmailConfirm,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(controller.nextSenha);
+                    },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'E-mail de confirmação é obrigatório!';
@@ -74,10 +80,13 @@ class CadastroCliente extends StatelessWidget {
                   Obx(
                     () => InputFormFieldComponent(
                       controller: controller.senha,
-                      autofocus: true,
                       hintText: 'Senha',
                       fillColor: lineColor,
                       obscureText: !controller.visibilitySenha.value,
+                      focusNode: controller.nextSenha,
+                      onFieldSubmitted: (value) {
+                        FocusScope.of(context).requestFocus(controller.nextSenhaConfirm);
+                      },
                       suffixIcon: GestureDetector(
                         onTap: () => controller.visibilitySenha(!controller.visibilitySenha.value),
                         child: Icon(
@@ -87,7 +96,7 @@ class CadastroCliente extends StatelessWidget {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'E-mail é obrigatório!';
+                          return 'Senha é obrigatório!';
                         }
                       },
                       maxLength: 25,
@@ -99,9 +108,13 @@ class CadastroCliente extends StatelessWidget {
                   Obx(
                     () => InputFormFieldComponent(
                       controller: controller.senhaConfirma,
-                      autofocus: true,
                       hintText: 'Confirmar Senha',
                       obscureText: !controller.visibilitySenhaConfirma.value,
+                      focusNode: controller.nextSenhaConfirm,
+                      onFieldSubmitted: (value) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        controller.formKey.currentState!.validate();
+                      },
                       suffixIcon: GestureDetector(
                         onTap: () => controller.visibilitySenhaConfirma(!controller.visibilitySenhaConfirma.value),
                         child: Icon(
@@ -112,7 +125,7 @@ class CadastroCliente extends StatelessWidget {
                       fillColor: lineColor,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'E-mail é obrigatório!';
+                          return 'Senha de confirmação é obrigatório!';
                         }
                         if (controller.senhaConfirma.text.compareTo(value) != 0) {
                           return 'Senha informada está diferente';
@@ -129,7 +142,9 @@ class CadastroCliente extends StatelessWidget {
                     child: ButtonComponent(
                       titulo: 'Prosseguir',
                       onPressed: () {
-                        Get.toNamed('/cadastro-dados-pessoais');
+                        if (controller.formKey.currentState!.validate()) {
+                          Get.toNamed('/cadastro-dados-pessoais');
+                        }
                       },
                       fontColor: fontColor,
                       backgroundColor: amareloPadrao,

@@ -2,21 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
+import 'package:wapper/app/ui/home_page/controller/home_controller.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
 import '../../components/appbar/app_bar_component.dart';
 import '../../utils/utils.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(HomeController());
     return Scaffold(
       body: Column(
         children: [
@@ -124,39 +121,103 @@ class _HomePageState extends State<HomePage> {
               child: ListView.builder(
                 controller: ScrollController(initialScrollOffset: 0),
                 itemCount: 15,
-                scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                    child: SizedBox(
-                      width: 67,
+                  return GestureDetector(
+                    onTap: () {
+                      print('object - ${index}');
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                       child: Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Container(
-                              width: 66,
-                              height: 66,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(
-                                          "https://img.freepik.com/vetores-gratis/logotipo-do-polo-de-barbeiro_1415-673.jpg?w=2000"))),
+                          Expanded(
+                            flex: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Container(
+                                width: 66,
+                                height: 66,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: NetworkImage(
+                                            "https://img.freepik.com/vetores-gratis/logotipo-do-polo-de-barbeiro_1415-673.jpg?w=2000"))),
+                              ),
                             ),
                           ),
-                          Column(
-                            children: [
-                              TextComponent(
-                                'Barbearia do Zé ${index}',
-                                color: fontColor,
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                textAlign: TextAlign.center,
-                              ),
-                              Container(height: 12, width: 12, child: Icon(Icons.star))
-                            ],
+                          Expanded(
+                            flex: 3,
+                            child: Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextComponent(
+                                      'Barbearia do Zé ${index}',
+                                      color: fontColor,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          size: 15,
+                                          Icons.star,
+                                          color: amareloPadrao,
+                                        ),
+                                        const SizedBox(
+                                          width: 4,
+                                        ),
+                                        TextComponent(
+                                          '4,5',
+                                          color: amareloPadrao,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        const SizedBox(
+                                          width: 4,
+                                        ),
+                                        Container(
+                                          width: Get.width * 0.45,
+                                          child: TextComponent(
+                                            '• Barbearia mascúlino • 2,9 km • Barbearia mascúlino • 2,9 km',
+                                            color: cinzaPadrao,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 13,
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
+                          Expanded(
+                            flex: 0,
+                            child: Obx(
+                              () => GestureDetector(
+                                onTap: () {
+                                  controller.favorite(!controller.favorite.value);
+                                },
+                                child: !controller.favorite.value
+                                    ? Icon(
+                                        size: 25,
+                                        Icons.favorite_border,
+                                        color: cinzaPadrao,
+                                      )
+                                    : const Icon(
+                                        Icons.favorite,
+                                        color: Color.fromARGB(255, 255, 0, 0),
+                                      ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),

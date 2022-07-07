@@ -4,6 +4,7 @@ import 'package:wapper/app/ui/cadastro/view/cadastro_dados_pessoais.dart';
 import 'package:wapper/app/ui/home_page/view/home_page.dart';
 import 'package:wapper/app/ui/loading/view/loading_view.dart';
 import 'package:wapper/app/ui/login_page/view/login.dart';
+import 'package:wapper/app/ui/search_page.dart/view/search_page.dart';
 import 'package:wapper/app/ui/splash_screen/view/splash_screen.dart';
 
 class AppRoutes {
@@ -31,6 +32,10 @@ class AppRoutes {
     GetPage(
       name: '/cadastro-dados-pessoais',
       page: () => const CadastroDadosPessoais(),
+    ),
+    GetPage(
+      name: '/search',
+      page: () => const SearchPage(),
     ),
   ];
 }

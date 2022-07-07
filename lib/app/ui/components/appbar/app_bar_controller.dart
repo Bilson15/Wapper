@@ -13,10 +13,10 @@ class AppBarController extends GetxController {
   redireciona() {
     switch (selecionado.value) {
       case 0:
-        //Get.toNamed('/home');
+        Get.toNamed('/home');
         break;
       case 1:
-        //Get.offAllNamed('/login');
+        Get.toNamed('/search');
         break;
       default:
     }

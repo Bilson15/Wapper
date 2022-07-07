@@ -20,6 +20,7 @@ class TextComponent extends StatelessWidget {
     return Text(
       data,
       textAlign: textAlign ?? TextAlign.left,
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
         color: color ?? backgroundFieldColor,
         fontSize: fontSize ?? 18 * media.textScaleFactor,

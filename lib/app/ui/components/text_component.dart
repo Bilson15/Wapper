@@ -10,8 +10,17 @@ class TextComponent extends StatelessWidget {
   final TextAlign? textAlign;
   final FontStyle? fontStyle;
   final String? fontFamily;
+  final TextOverflow? textOverflow;
   const TextComponent(this.data,
-      {Key? key, this.color, this.fontWeight, this.fontSize, this.letterSpacing, this.fontStyle, this.textAlign, this.fontFamily})
+      {Key? key,
+      this.color,
+      this.fontWeight,
+      this.fontSize,
+      this.letterSpacing,
+      this.fontStyle,
+      this.textAlign,
+      this.fontFamily,
+      this.textOverflow})
       : super(key: key);
 
   @override
@@ -20,7 +29,7 @@ class TextComponent extends StatelessWidget {
     return Text(
       data,
       textAlign: textAlign ?? TextAlign.left,
-      overflow: TextOverflow.ellipsis,
+      overflow: textOverflow,
       style: TextStyle(
         color: color ?? backgroundFieldColor,
         fontSize: fontSize ?? 18 * media.textScaleFactor,

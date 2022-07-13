@@ -8,3 +8,4 @@ Color lineColor = const Color.fromARGB(255, 182, 182, 182);
 Color backgroundFieldColor = const Color.fromARGB(255, 217, 217, 217);
 Color errorColor = const Color.fromARGB(255, 194, 31, 31);
 Color redPadrao = const Color.fromARGB(0, 255, 0, 31);
+Color black = const Color.fromARGB(255, 0, 0, 0);

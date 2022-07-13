@@ -31,6 +31,6 @@ class LoginController extends GetxController {
   efetuaLogin() async {
     Get.offAllNamed('/loading');
     await Future.delayed(const Duration(seconds: 5));
-    Get.offAllNamed('/home');
+    Get.offAllNamed('/root');
   }
 }

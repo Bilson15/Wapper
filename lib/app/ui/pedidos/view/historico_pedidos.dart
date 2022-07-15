@@ -61,7 +61,9 @@ class _HistoricoPedidosState extends State<HistoricoPedidos> {
                   return Padding(
                     padding: const EdgeInsets.all(16),
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed('/info-pedido');
+                      },
                       child: Column(
                         children: [
                           Row(

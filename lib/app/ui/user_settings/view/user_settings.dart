@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:wapper/app/ui/components/menu_settings_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
@@ -63,7 +64,9 @@ class UserSettings extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed('/app-configuration');
+              },
               child: const MenuSettingsComponent(
                 icon: Icons.settings_outlined,
                 title: 'Configurações',

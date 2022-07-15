@@ -4,8 +4,11 @@ import 'package:wapper/app/ui/components/text_component.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
 class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
-  final String? title;
-  AppBarComponent({Key? key, this.title}) : super(key: key);
+  final TextComponent textComponent;
+  AppBarComponent({
+    Key? key,
+    required this.textComponent,
+  }) : super(key: key);
   final AppBar appBar = AppBar();
 
   @override
@@ -18,11 +21,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         centerTitle: true,
         backgroundColor: azulPadrao,
-        title: const TextComponent(
-          'Cadastro',
-          fontSize: 24,
-          fontFamily: 'OleoScript',
-        ),
+        title: textComponent,
       ),
     );
   }

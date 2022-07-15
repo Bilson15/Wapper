@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
+import 'package:wapper/app/ui/app_configuration/view/app_configuration.dart';
 import 'package:wapper/app/ui/cadastro/view/cadastro_cliente.dart';
 import 'package:wapper/app/ui/cadastro/view/cadastro_dados_pessoais.dart';
 import 'package:wapper/app/ui/home_page/view/home_page.dart';
+import 'package:wapper/app/ui/info_pedido/view/info_pedido.dart';
 import 'package:wapper/app/ui/loading/view/loading_view.dart';
 import 'package:wapper/app/ui/login_page/view/login.dart';
 import 'package:wapper/app/ui/root/view/root.dart';
@@ -41,6 +43,14 @@ class AppRoutes {
     GetPage(
       name: '/root',
       page: () => const Root(),
+    ),
+    GetPage(
+      name: '/app-configuration',
+      page: () => const AppConfiguration(),
+    ),
+    GetPage(
+      name: '/info-pedido',
+      page: () => const InfoPedido(),
     ),
   ];
 }

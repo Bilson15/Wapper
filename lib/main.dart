@@ -6,6 +6,7 @@ import 'package:wapper/app/ui/theme/styles.dart';
 void main() {
   runApp(
     GetMaterialApp(
+      theme: ThemeData(accentColor: cinzaPadrao),
       title: 'Wapper',
       debugShowCheckedModeBanner: false,
       initialRoute: '/',

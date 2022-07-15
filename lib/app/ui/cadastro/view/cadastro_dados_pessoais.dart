@@ -7,8 +7,6 @@ import 'package:wapper/app/ui/components/button_component.dart';
 import 'package:wapper/app/ui/components/drop_down_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
-import 'package:wapper/app/ui/utils/validacao_email.dart';
-
 import '../../components/app_bar_component.dart';
 import '../../components/form_field_component.dart';
 
@@ -21,7 +19,14 @@ class CadastroDadosPessoais extends StatelessWidget {
     final controller = Get.put(CadastroDadosPessoaisController());
     return Material(
       child: Scaffold(
-        appBar: AppBarComponent(title: 'Cadastro'),
+        appBar: AppBarComponent(
+          textComponent: const TextComponent(
+            'Cadastro',
+            fontWeight: FontWeight.bold,
+            fontFamily: 'OleoScript',
+            fontSize: 25,
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: SingleChildScrollView(

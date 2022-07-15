@@ -17,7 +17,14 @@ class CadastroCliente extends StatelessWidget {
     final controller = Get.put(CadastroClienteController());
     return Material(
       child: Scaffold(
-        appBar: AppBarComponent(title: 'Cadastro'),
+        appBar: AppBarComponent(
+          textComponent: const TextComponent(
+            'Cadastro',
+            fontWeight: FontWeight.bold,
+            fontFamily: 'OleoScript',
+            fontSize: 25,
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: SingleChildScrollView(

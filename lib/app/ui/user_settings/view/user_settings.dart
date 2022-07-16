@@ -37,7 +37,7 @@ class UserSettings extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextComponent(
-                    'Barbearia do Zé',
+                    'Gabriel Felipe',
                     color: black,
                     fontWeight: FontWeight.bold,
                   ),

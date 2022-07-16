@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wapper/app/ui/components/button_component.dart';
 import 'package:wapper/app/ui/components/form_field_component.dart';
 import 'package:wapper/app/ui/login_page/controller/login_controller.dart';
@@ -201,11 +202,11 @@ class Login extends StatelessWidget {
                               ),
                               child: Row(
                                 children: [
-                                  Image.asset(
-                                    'lib/app/assets/img/foguete.png',
-                                    width: 48,
-                                    height: 48,
-                                  ),
+                                  // Image.asset(
+                                  //   'lib/app/assets/img/foguete.png',
+                                  //   width: 48,
+                                  //   height: 48,
+                                  // ),
                                   const SizedBox(
                                     width: 10,
                                   ),
@@ -221,11 +222,12 @@ class Login extends StatelessWidget {
                                   const SizedBox(
                                     width: 10,
                                   ),
-                                  Image.asset(
-                                    'lib/app/assets/img/prosseguir.png',
-                                    width: 32,
-                                    height: 34,
-                                  ),
+                                  Lottie.asset('lib/app/assets/anim/space-rocket.json', width: 40, height: 40, fit: BoxFit.fill),
+                                  // Image.asset(
+                                  //   'lib/app/assets/img/prosseguir.png',
+                                  //   width: 32,
+                                  //   height: 34,
+                                  // ),
                                 ],
                               ),
                             ),

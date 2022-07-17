@@ -29,8 +29,7 @@ class UserSettings extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       fit: BoxFit.fill,
-                      image:
-                          NetworkImage("https://img.freepik.com/vetores-gratis/logotipo-do-polo-de-barbeiro_1415-673.jpg?w=2000"),
+                      image: NetworkImage("https://cdn.iconscout.com/icon/free/png-256/avatar-370-456322.png"),
                     ),
                   ),
                 ),

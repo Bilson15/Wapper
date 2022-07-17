@@ -14,10 +14,10 @@ class ItemPedidoComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Divider(
-          thickness: 1,
-          color: lineColor,
-        ),
+        // Divider(
+        //   thickness: 1,
+        //   color: lineColor,
+        // ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Row(
@@ -31,7 +31,7 @@ class ItemPedidoComponent extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 4,
+                flex: 3,
                 child: TextComponent(
                   '$descricao',
                   color: cinzaPadrao,
@@ -87,10 +87,13 @@ class ItemPedidoComponent extends StatelessWidget {
             )
           ],
         ),
-        Divider(
-          thickness: 1,
-          color: lineColor,
-        )
+        const SizedBox(
+          height: 25,
+        ),
+        // Divider(
+        //   thickness: 1,
+        //   color: lineColor,
+        // )
       ],
     );
   }

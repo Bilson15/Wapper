@@ -38,7 +38,7 @@ class AppConfiguration extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Get.offAllNamed('/home');
+                Get.offAllNamed('/login');
               },
               child: const CardConfigurationComponent(
                 icon: Icons.logout,

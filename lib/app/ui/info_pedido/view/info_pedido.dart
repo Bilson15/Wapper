@@ -74,6 +74,10 @@ class InfoPedido extends StatelessWidget {
                   )
                 ],
               ),
+              Divider(
+                thickness: 1,
+                color: lineColor,
+              ),
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: 2,
@@ -90,6 +94,10 @@ class InfoPedido extends StatelessWidget {
                     ],
                   );
                 },
+              ),
+              Divider(
+                thickness: 1,
+                color: lineColor,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -155,11 +163,22 @@ class InfoPedido extends StatelessWidget {
                           'Pagamento',
                           color: cinzaPadrao,
                         ),
-                        TextComponent(
-                          'Dinheiro',
-                          fontWeight: FontWeight.bold,
-                          color: fontColor,
-                        )
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.payments_outlined,
+                              color: greenMoney,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            TextComponent(
+                              'Dinheiro',
+                              fontWeight: FontWeight.bold,
+                              color: fontColor,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),

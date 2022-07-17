@@ -38,7 +38,7 @@ class _HistoricoPedidosState extends State<HistoricoPedidos> {
             height: 29,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -53,13 +53,13 @@ class _HistoricoPedidosState extends State<HistoricoPedidos> {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ListView.builder(
                 controller: ScrollController(initialScrollOffset: 0),
                 itemCount: 15,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                     child: GestureDetector(
                       onTap: () {
                         Get.toNamed('/info-pedido');

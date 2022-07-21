@@ -30,6 +30,7 @@ class InputFormFieldComponent extends StatelessWidget {
   final TextStyle? textStyle;
   final FocusNode? focusNode;
   final Color? fillColor;
+  final counterText;
 
   InputFormFieldComponent({
     Key? key,
@@ -58,6 +59,7 @@ class InputFormFieldComponent extends StatelessWidget {
     this.textStyle,
     this.focusNode,
     this.fillColor,
+    this.counterText = false,
   }) : super(key: key);
 
   @override
@@ -101,7 +103,7 @@ class InputFormFieldComponent extends StatelessWidget {
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         hintText: hintText,
-        counterText: '',
+        counterText: counterText! ? null : '',
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(15.0),

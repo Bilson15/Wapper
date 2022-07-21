@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:wapper/app/ui/app_configuration/view/app_configuration.dart';
 import 'package:wapper/app/ui/cadastro/view/cadastro_cliente.dart';
 import 'package:wapper/app/ui/cadastro/view/cadastro_dados_pessoais.dart';
+import 'package:wapper/app/ui/feedback_service/view/feedback_page.dart';
 import 'package:wapper/app/ui/home_page/view/home_page.dart';
 import 'package:wapper/app/ui/info_pedido/view/info_pedido.dart';
 import 'package:wapper/app/ui/loading/view/loading_view.dart';
@@ -41,8 +42,10 @@ class AppRoutes {
       page: () => const SearchPage(),
     ),
     GetPage(
-      name: '/root',
-      page: () => const Root(),
+      name: '/root/:index',
+      page: () => Root(
+        index: int.parse(Get.parameters['index']!),
+      ),
     ),
     GetPage(
       name: '/app-configuration',
@@ -51,6 +54,10 @@ class AppRoutes {
     GetPage(
       name: '/info-pedido',
       page: () => const InfoPedido(),
+    ),
+    GetPage(
+      name: '/feedback-page',
+      page: () => FeedBackPage(),
     ),
   ];
 }

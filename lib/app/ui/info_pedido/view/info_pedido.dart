@@ -232,7 +232,9 @@ class InfoPedido extends StatelessWidget {
                     titulo: 'Avaliar Serviços',
                     backgroundColor: azulPadrao,
                     fontColor: backgroundFieldColor,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed('/feedback-page');
+                    },
                   ),
                 ),
               )

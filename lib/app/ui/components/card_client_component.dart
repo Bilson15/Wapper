@@ -73,7 +73,7 @@ class CardClientComponent extends StatelessWidget {
                           Container(
                             width: Get.width * 0.45,
                             child: TextComponent(
-                              '• Barbearia mascúlino • 2,9 km • Barbearia mascúlino • 2,9 km',
+                              '• Barbearia mascúlino • 2,9 km',
                               color: cinzaPadrao,
                               textOverflow: TextOverflow.ellipsis,
                               fontWeight: FontWeight.bold,

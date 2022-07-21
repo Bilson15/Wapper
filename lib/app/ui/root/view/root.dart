@@ -3,12 +3,18 @@ import 'package:get/get.dart';
 import 'package:wapper/app/ui/root/controller/root_controller.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
+// ignore: must_be_immutable
 class Root extends StatelessWidget {
-  const Root({Key? key}) : super(key: key);
+  int? index;
+  Root({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(RootController());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (index != null) controller.currentIndex(index);
+    });
+
     return Obx(
       () => Scaffold(
         body: controller.currentePage(),

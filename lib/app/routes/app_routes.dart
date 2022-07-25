@@ -4,6 +4,7 @@ import 'package:wapper/app/ui/cadastro/view/cadastro_cliente.dart';
 import 'package:wapper/app/ui/cadastro/view/cadastro_dados_pessoais.dart';
 import 'package:wapper/app/ui/feedback_service/view/feedback_page.dart';
 import 'package:wapper/app/ui/home_page/view/home_page.dart';
+import 'package:wapper/app/ui/info_parceiro/view/info_parceiro.dart';
 import 'package:wapper/app/ui/info_pedido/view/info_pedido.dart';
 import 'package:wapper/app/ui/loading/view/loading_view.dart';
 import 'package:wapper/app/ui/login_page/view/login.dart';
@@ -58,6 +59,10 @@ class AppRoutes {
     GetPage(
       name: '/feedback-page',
       page: () => FeedBackPage(),
+    ),
+    GetPage(
+      name: '/info-parceiro',
+      page: () => InfoParceiro(),
     ),
   ];
 }

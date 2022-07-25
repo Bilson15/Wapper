@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      print(index);
+                      Get.toNamed('/info-parceiro');
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 14),

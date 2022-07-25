@@ -59,7 +59,7 @@ class _HistoricoPedidosState extends State<HistoricoPedidos> {
                 itemCount: 15,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
                     child: GestureDetector(
                       onTap: () {
                         Get.toNamed('/info-pedido');

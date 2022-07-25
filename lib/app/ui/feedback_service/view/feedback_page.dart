@@ -121,6 +121,7 @@ class FeedBackPage extends StatelessWidget {
                         initialRating: controller.starsParceiro.value,
                         itemCount: 5,
                         minRating: 1,
+                        glow: false,
                         itemBuilder: (context, _) {
                           return Icon(
                             Icons.star,
@@ -264,6 +265,7 @@ class FeedBackPage extends StatelessWidget {
                         initialRating: controller.starsProfissional.value,
                         itemCount: 5,
                         minRating: 1,
+                        glow: false,
                         itemBuilder: (context, _) {
                           return Icon(
                             Icons.star,

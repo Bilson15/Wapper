@@ -100,7 +100,7 @@ class _HistoricoPedidosState extends State<HistoricoPedidos> {
                                               image: DecorationImage(
                                                 fit: BoxFit.fill,
                                                 image: NetworkImage(
-                                                    "https://img.freepik.com/vetores-gratis/logotipo-do-polo-de-barbeiro_1415-673.jpg?w=2000"),
+                                                    "https://img.elo7.com.br/product/zoom/2E9706C/logotipo-personalizada-barbearia-arte-digital-tesoura.jpg"),
                                               ),
                                             ),
                                           ),

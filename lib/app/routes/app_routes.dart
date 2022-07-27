@@ -10,6 +10,7 @@ import 'package:wapper/app/ui/loading/view/loading_view.dart';
 import 'package:wapper/app/ui/login_page/view/login.dart';
 import 'package:wapper/app/ui/root/view/root.dart';
 import 'package:wapper/app/ui/search_page.dart/view/search_page.dart';
+import 'package:wapper/app/ui/service_parceiro/view/service_parceiro.dart';
 import 'package:wapper/app/ui/splash_screen/view/splash_screen.dart';
 
 class AppRoutes {
@@ -64,5 +65,9 @@ class AppRoutes {
       name: '/info-parceiro',
       page: () => InfoParceiro(),
     ),
+    GetPage(
+      name: '/servico-parceiro',
+      page: () => ServicoParceiro(),
+    )
   ];
 }

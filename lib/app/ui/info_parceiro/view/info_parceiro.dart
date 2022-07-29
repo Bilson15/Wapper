@@ -120,7 +120,12 @@ class InfoParceiro extends StatelessWidget {
                           onTap: () {
                             Get.toNamed('/servico-parceiro');
                           },
-                          child: CardServiceSeller(),
+                          child: CardServiceSeller(
+                            title: 'Corte de cabelo + Barba',
+                            description: 'Corte mascúlino, degradê, social ou á sua escolha',
+                            value: 'R\$ 25,00',
+                            icon: true,
+                          ),
                         );
                       })
                 ],

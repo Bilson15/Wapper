@@ -1,13 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
+// ignore: must_be_immutable
 class CardServiceSeller extends StatelessWidget {
-  const CardServiceSeller({Key? key}) : super(key: key);
+  String? title;
+  String? description;
+  String? value;
+  bool? icon;
+
+  CardServiceSeller({this.title, this.description, this.value, this.icon = false, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class CardServiceSeller extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 4),
                     child: TextComponent(
-                      'Corte de Cabelo',
+                      title ?? '',
                       color: fontColor,
                       fontWeight: FontWeight.w600,
                     ),
@@ -33,7 +36,7 @@ class CardServiceSeller extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 4),
                       child: TextComponent(
-                        'Corte mascúlino, degradê, social, à escolhaaa',
+                        description ?? '',
                         color: cinzaPadrao,
                         textOverflow: TextOverflow.ellipsis,
                       ),
@@ -42,7 +45,7 @@ class CardServiceSeller extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 4),
                     child: TextComponent(
-                      'R\$ 25,00',
+                      value ?? '',
                       color: fontColor,
                       fontWeight: FontWeight.w600,
                     ),
@@ -50,18 +53,20 @@ class CardServiceSeller extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
-              flex: 0,
-              child: Column(
-                children: [
-                  Icon(
-                    size: 25,
-                    Icons.arrow_forward_ios_outlined,
-                    color: fontColor,
+            icon ?? false
+                ? Expanded(
+                    flex: 0,
+                    child: Column(
+                      children: [
+                        Icon(
+                          size: 25,
+                          Icons.arrow_forward_ios_outlined,
+                          color: fontColor,
+                        )
+                      ],
+                    ),
                   )
-                ],
-              ),
-            )
+                : SizedBox.shrink(),
           ],
         ),
         const SizedBox(

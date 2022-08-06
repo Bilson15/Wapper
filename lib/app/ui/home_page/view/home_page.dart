@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
             padding: Utils.paddingSafeAreaTop(context),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -28,6 +28,16 @@ class HomePage extends StatelessWidget {
                   color: cinzaPadrao,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Get.toNamed('/cart-page');
+                },
+                icon: Icon(Icons.shopping_cart_outlined),
+                tooltip: 'Ir para meu carrinho',
+                color: azulPadrao,
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
               ),
             ],
           ),

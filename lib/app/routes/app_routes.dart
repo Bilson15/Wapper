@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:wapper/app/ui/app_configuration/view/app_configuration.dart';
 import 'package:wapper/app/ui/cadastro/view/cadastro_cliente.dart';
 import 'package:wapper/app/ui/cadastro/view/cadastro_dados_pessoais.dart';
+import 'package:wapper/app/ui/cart_page/view/cart_page.dart';
 import 'package:wapper/app/ui/feedback_service/view/feedback_page.dart';
 import 'package:wapper/app/ui/home_page/view/home_page.dart';
 import 'package:wapper/app/ui/info_parceiro/view/info_parceiro.dart';
@@ -68,6 +69,10 @@ class AppRoutes {
     GetPage(
       name: '/servico-parceiro',
       page: () => ServicoParceiro(),
-    )
+    ),
+    GetPage(
+      name: '/cart-page',
+      page: () => CartPage(),
+    ),
   ];
 }

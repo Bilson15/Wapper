@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wapper/app/ui/components/app_bar_component.dart';
+import 'package:wapper/app/ui/components/button_component.dart';
 import 'package:wapper/app/ui/components/card_service_seller.dart';
+import 'package:wapper/app/ui/components/form_field_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
@@ -462,8 +464,48 @@ class ServicoParceiro extends StatelessWidget {
                     thickness: 1,
                     color: lineColor,
                   ),
+                  const SizedBox(
+                    height: 8,
+                  ),
                 ],
               ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TextComponent(
+                        'Alguma observação ?',
+                        color: fontColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  InputFormFieldComponent(
+                    maxLength: 140,
+                    hintText: 'Ex: Chegarei 5 minutos adiantado do horário marcado...',
+                    counterText: true,
+                    maxLines: 3,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Container(
+                width: Get.width * 0.70,
+                child: ButtonComponent(
+                  backgroundColor: azulPadrao,
+                  titulo: 'Confirmar',
+                  onPressed: () {
+                    Get.toNamed('/cart-page');
+                  },
+                ),
+              )
             ],
           ),
         ),

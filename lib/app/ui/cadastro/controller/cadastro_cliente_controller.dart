@@ -7,9 +7,6 @@ class CadastroClienteController extends GetxController {
   late TextEditingController emailConfirma = TextEditingController();
   late TextEditingController senhaConfirma = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  FocusNode nextEmailConfirm = FocusNode();
-  FocusNode nextSenha = FocusNode();
-  FocusNode nextSenhaConfirm = FocusNode();
   var visibilitySenha = false.obs;
   var visibilitySenhaConfirma = false.obs;
 

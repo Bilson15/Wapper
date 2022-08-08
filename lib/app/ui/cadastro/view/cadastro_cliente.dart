@@ -48,9 +48,7 @@ class CadastroCliente extends StatelessWidget {
                   InputFormFieldComponent(
                     controller: controller.email,
                     hintText: 'E-mail',
-                    onFieldSubmitted: (value) {
-                      FocusScope.of(context).requestFocus(controller.nextEmailConfirm);
-                    },
+                    textInputAction: TextInputAction.next,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'E-mail é obrigatório!';
@@ -67,10 +65,7 @@ class CadastroCliente extends StatelessWidget {
                   InputFormFieldComponent(
                     controller: controller.emailConfirma,
                     hintText: 'Confirmar E-mail',
-                    focusNode: controller.nextEmailConfirm,
-                    onFieldSubmitted: (value) {
-                      FocusScope.of(context).requestFocus(controller.nextSenha);
-                    },
+                    textInputAction: TextInputAction.next,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'E-mail de confirmação é obrigatório!';
@@ -90,10 +85,7 @@ class CadastroCliente extends StatelessWidget {
                       hintText: 'Senha',
                       fillColor: lineColor,
                       obscureText: !controller.visibilitySenha.value,
-                      focusNode: controller.nextSenha,
-                      onFieldSubmitted: (value) {
-                        FocusScope.of(context).requestFocus(controller.nextSenhaConfirm);
-                      },
+                      textInputAction: TextInputAction.next,
                       suffixIcon: GestureDetector(
                         onTap: () => controller.visibilitySenha(!controller.visibilitySenha.value),
                         child: Icon(
@@ -117,9 +109,8 @@ class CadastroCliente extends StatelessWidget {
                       controller: controller.senhaConfirma,
                       hintText: 'Confirmar Senha',
                       obscureText: !controller.visibilitySenhaConfirma.value,
-                      focusNode: controller.nextSenhaConfirm,
+                      textInputAction: TextInputAction.done,
                       onFieldSubmitted: (value) {
-                        FocusManager.instance.primaryFocus?.unfocus();
                         controller.formKey.currentState!.validate();
                       },
                       suffixIcon: GestureDetector(

@@ -20,16 +20,9 @@ class CadastroDadosPessoaisController extends GetxController {
   MaskFormatter maskFormatter = MaskFormatter();
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  FocusNode nextDataNasc = FocusNode();
-  FocusNode nextSexo = FocusNode();
+
   FocusNode nextCpf = FocusNode();
-  FocusNode nextddd = FocusNode();
-  FocusNode nextTelefone = FocusNode();
-  FocusNode nextCep = FocusNode();
-  FocusNode nextEndereco = FocusNode();
-  FocusNode nextBairro = FocusNode();
-  FocusNode nextNumero = FocusNode();
-  FocusNode nextComplemento = FocusNode();
+
   var visibilitySenha = false.obs;
   var visibilitySenhaConfirma = false.obs;
 

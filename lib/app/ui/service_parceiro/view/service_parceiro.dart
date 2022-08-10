@@ -136,7 +136,9 @@ class ServicoParceiro extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      onTap: () => {});
+                                      onTap: () {
+                                        Get.back();
+                                      });
                                 }),
                               ),
                             ),
@@ -346,7 +348,9 @@ class ServicoParceiro extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          onTap: () => {});
+                                          onTap: () {
+                                            Get.back();
+                                          });
                                     }),
                                   ),
                                 ),
@@ -490,6 +494,7 @@ class ServicoParceiro extends StatelessWidget {
                     hintText: 'Ex: Chegarei 5 minutos adiantado do horário marcado...',
                     counterText: true,
                     maxLines: 3,
+                    textInputAction: TextInputAction.done,
                   ),
                 ],
               ),

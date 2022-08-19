@@ -7,7 +7,6 @@ import 'package:wapper/app/ui/user_settings/view/user_settings.dart';
 
 class RootController extends GetxController {
   final currentIndex = 0.obs;
-
   final List<Widget> pages = [
     const HomePage(),
     const SearchPage(),

@@ -245,44 +245,24 @@ class CartPage extends StatelessWidget {
                                   ),
                                   elevation: 0,
                                   builder: (BuildContext context) {
-                                    return Stack(
-                                      children: [
-                                        Container(
-                                          height: Get.height / 2,
-                                          child: ListView.builder(
-                                            itemCount: 1,
-                                            itemBuilder: ((context, index) {
-                                              return ListTile(
-                                                leading: Icon(
-                                                  Icons.payments_outlined,
-                                                  color: greenMoney,
-                                                ),
-                                                title: new Text('Pagamento em dinheiro'),
-                                                onTap: () {
-                                                  controller.selectedPaymentForm.value = PaymentForm(id: 1, title: 'Dinheiro');
-                                                  Get.back();
-                                                },
-                                              );
-                                            }),
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.only(top: 10),
-                                              height: 4,
-                                              width: 70,
-                                              decoration: BoxDecoration(
-                                                color: cinzaPadrao,
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(20),
-                                                ),
-                                              ),
+                                    return Container(
+                                      height: Get.height / 2,
+                                      child: ListView.builder(
+                                        itemCount: 1,
+                                        itemBuilder: ((context, index) {
+                                          return ListTile(
+                                            leading: Icon(
+                                              Icons.payments_outlined,
+                                              color: greenMoney,
                                             ),
-                                          ],
-                                        ),
-                                      ],
+                                            title: new Text('Pagamento em dinheiro'),
+                                            onTap: () {
+                                              controller.selectedPaymentForm.value = PaymentForm(id: 1, title: 'Dinheiro');
+                                              Get.back();
+                                            },
+                                          );
+                                        }),
+                                      ),
                                     );
                                   });
                             },

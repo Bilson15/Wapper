@@ -10,7 +10,7 @@ class Root extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(RootController());
+    final controller = Get.find<RootController>(tag: 'root_controller');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (index != null) controller.currentIndex(index);
     });

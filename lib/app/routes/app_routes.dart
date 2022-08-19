@@ -9,6 +9,7 @@ import 'package:wapper/app/ui/info_parceiro/view/info_parceiro.dart';
 import 'package:wapper/app/ui/info_pedido/view/info_pedido.dart';
 import 'package:wapper/app/ui/loading/view/loading_view.dart';
 import 'package:wapper/app/ui/login_page/view/login.dart';
+import 'package:wapper/app/ui/root/binding/binding_root.dart';
 import 'package:wapper/app/ui/root/view/root.dart';
 import 'package:wapper/app/ui/search_page.dart/view/search_page.dart';
 import 'package:wapper/app/ui/service_parceiro/view/service_parceiro.dart';
@@ -49,6 +50,7 @@ class AppRoutes {
       page: () => Root(
         index: int.parse(Get.parameters['index']!),
       ),
+      binding: RootBinding(),
     ),
     GetPage(
       name: '/app-configuration',

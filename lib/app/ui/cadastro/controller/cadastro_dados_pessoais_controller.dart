@@ -63,7 +63,6 @@ class CadastroDadosPessoaisController extends GetxController {
     try {
       ClienteModel clienteRepo = await repository.criarCliente(cliente);
       if (clienteRepo.idCliente != null) {
-        await Future.delayed(const Duration(seconds: 5));
         Get.offAllNamed('/login');
       } else {
         Get.toNamed('/cadastro-dados-pessoais');

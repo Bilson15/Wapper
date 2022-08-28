@@ -38,8 +38,7 @@ class ApiService {
 
       return response;
     } catch (e) {
-      print(e.toString());
-      throw e.toString();
+      throw "Ocorreu um erro, tente novamente.";
     }
   }
 

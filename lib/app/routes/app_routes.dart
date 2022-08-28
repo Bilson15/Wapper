@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wapper/app/ui/app_configuration/view/app_configuration.dart';
+import 'package:wapper/app/ui/cadastro/binding/cadastroBinding.dart';
 import 'package:wapper/app/ui/cadastro/view/cadastro_cliente.dart';
 import 'package:wapper/app/ui/cadastro/view/cadastro_dados_pessoais.dart';
 import 'package:wapper/app/ui/cart_page/view/cart_page.dart';
@@ -36,6 +37,7 @@ class AppRoutes {
     GetPage(
       name: '/cadastro',
       page: () => const CadastroCliente(),
+      binding: CadastroBinding(),
     ),
     GetPage(
       name: '/cadastro-dados-pessoais',

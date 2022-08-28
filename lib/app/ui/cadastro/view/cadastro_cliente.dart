@@ -14,7 +14,7 @@ class CadastroCliente extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CadastroClienteController());
+    final controller = Get.find<CadastroClienteController>();
     return Material(
       child: Scaffold(
         appBar: AppBarComponent(

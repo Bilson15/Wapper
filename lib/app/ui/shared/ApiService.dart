@@ -1,0 +1,67 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+class ApiService {
+  late String? baseUrl;
+  late Map<String, String> headers;
+
+  ApiService() {
+    baseUrl = 'http://192.168.0.104:8080';
+    headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+  }
+
+  String? getBaseUrl() {
+    return baseUrl;
+  }
+
+  Future<http.Response> get(String endpoint, {Map<String, String>? queryParameters}) async {
+    try {
+      var uri = Uri.parse(baseUrl! + endpoint).replace(queryParameters: queryParameters);
+      http.Response response = await http.get(uri, headers: headers).timeout(const Duration(seconds: 300));
+
+      return response;
+    } catch (e) {
+      throw "Ocorreu um erro, tente novamente.";
+    }
+  }
+
+  Future<dynamic> post(String path, body) async {
+    try {
+      var uri = Uri.parse(baseUrl! + path);
+      print(uri);
+      print(jsonEncode(body));
+      var response = await http.post(uri, headers: headers, body: jsonEncode(body));
+
+      return response;
+    } catch (e) {
+      print(e.toString());
+      throw e.toString();
+    }
+  }
+
+  Future<dynamic> put(String endpoint, body) async {
+    try {
+      var uri = Uri.parse(baseUrl! + endpoint);
+      var response = await http.put(uri, headers: headers, body: jsonEncode(body)).timeout(const Duration(seconds: 300));
+
+      return response;
+    } catch (e) {
+      throw "Ocorreu um erro, tente novamente.";
+    }
+  }
+
+  Future<dynamic> delete(String endpoint) async {
+    try {
+      var uri = Uri.parse(baseUrl! + endpoint);
+      var response = await http.delete(uri, headers: headers).timeout(const Duration(seconds: 300));
+
+      return response;
+    } catch (e) {
+      throw "Ocorreu um erro, tente novamente.";
+    }
+  }
+}

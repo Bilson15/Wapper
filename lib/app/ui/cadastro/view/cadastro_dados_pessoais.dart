@@ -16,7 +16,7 @@ class CadastroDadosPessoais extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
-    final controller = Get.put(CadastroDadosPessoaisController());
+    final controller = Get.find<CadastroDadosPessoaisController>();
     return Material(
       child: Scaffold(
         appBar: AppBarComponent(
@@ -301,9 +301,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                       titulo: 'Finalizar cadastro',
                       onPressed: () async {
                         if (controller.formKey.currentState!.validate()) {
-                          Get.offAllNamed('/loading');
-                          await Future.delayed(const Duration(seconds: 5));
-                          Get.offAllNamed('/login');
+                          await controller.finalizarCadastro();
                         }
                       },
                       fontColor: fontColor,

@@ -27,14 +27,14 @@ class ClienteModel {
   });
 
   ClienteModel.fromJson(Map<String, dynamic> json) {
-    this.idCliente = json['id'];
+    this.idCliente = json['idCliente'];
     this.nome = json['nome'];
     this.email = json['email'];
     this.senha = json['senha'];
     this.cpf = json['cpf'];
     this.sexo = json['sexo'];
     this.statusCliente = json['status_cliente'];
-    this.dataNascimento = json['data_nascimento'];
+    this.dataNascimento = json['dataNascimento'];
     this.telefoneCliente = json['telefone_cliente'] != null
         ? json['telefoneCliente'].map<TelefoneClienteModel>((data) {
             return TelefoneClienteModel.fromJson(data);
@@ -49,13 +49,13 @@ class ClienteModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.idCliente;
+    data['idCliente'] = this.idCliente;
     data['nome'] = this.nome;
     data['email'] = this.email;
     data['senha'] = this.senha;
     data['cpf'] = this.cpf;
     data['sexo'] = this.sexo;
-    data['data_nascimento'] = this.dataNascimento.toString();
+    data['dataNascimento'] = this.dataNascimento.toString();
     data['status_cliente'] = this.statusCliente;
     data['telefoneCliente'] = this.endereco != null ? this.telefoneCliente!.map((e) => e.toJson()).toList() : null;
     data['endereco'] = this.endereco != null ? this.endereco!.map((e) => e.toJson()).toList() : null;

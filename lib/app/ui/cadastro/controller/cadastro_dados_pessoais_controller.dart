@@ -6,6 +6,7 @@ import 'package:wapper/app/data/model/enderecoModel.dart';
 import 'package:wapper/app/data/model/telefoneClienteModel.dart';
 import 'package:wapper/app/data/repository/ClienteRepository.dart';
 import 'package:wapper/app/ui/cadastro/controller/cadastro_cliente_controller.dart';
+import 'package:wapper/app/ui/loading/view/loading_view.dart';
 import 'package:wapper/app/ui/utils/mask_formatter.dart';
 import 'package:wapper/app/ui/utils/notificacao.dart';
 
@@ -39,34 +40,17 @@ class CadastroDadosPessoaisController extends GetxController {
 
   @override
   void onInit() {
-    nome.addListener(validaForm);
-    dataNasc.addListener(validaForm);
-    sexo.addListener(validaForm);
-    ddd.addListener(validaForm);
-    telefone.addListener(validaForm);
-    cep.addListener(validaForm);
-    endereco.addListener(validaForm);
-    bairro.addListener(validaForm);
-    numero.addListener(validaForm);
-    complemento.addListener(validaForm);
-
     super.onInit();
   }
 
-  validaForm() {
-    formKey.currentState!.validate();
-  }
-
   finalizarCadastro() async {
-    Get.toNamed('/loading');
-    ClienteModel cliente = criarModelo();
     try {
-      ClienteModel clienteRepo = await repository.criarCliente(cliente);
-      if (clienteRepo.idCliente != null) {
-        Get.offAllNamed('/login');
-      } else {
-        Get.toNamed('/cadastro-dados-pessoais');
-      }
+      Get.offNamedUntil(
+        '/loading',
+        (route) => LoadingView() == LoadingView(),
+      );
+      ClienteModel cliente = criarModelo();
+      await criarCliente(cliente);
     } catch (e) {
       Notificacao.snackBar(e.toString());
       Get.toNamed('/cadastro-dados-pessoais');
@@ -88,6 +72,7 @@ class CadastroDadosPessoaisController extends GetxController {
           complemento: complemento.text,
           logradouro: endereco.text,
           numero: numero.text,
+          bairro: bairro.text,
           statusEndereco: Status.ATIVO,
         ),
       ],
@@ -101,6 +86,26 @@ class CadastroDadosPessoaisController extends GetxController {
   }
 
   String? tratarString(String? line) {
-    return line?.replaceAll('-', '').replaceAll('/', '').replaceAll('.', '') ?? '';
+    return line
+            ?.replaceAll('-', '')
+            .replaceAll('/', '')
+            .replaceAll('.', '')
+            .replaceAll('(', '')
+            .replaceAll(')', '')
+            .replaceAll(' ', '') ??
+        '';
+  }
+
+  criarCliente(ClienteModel cliente) async {
+    try {
+      ClienteModel clienteRepo = await repository.criarCliente(cliente);
+      if (clienteRepo.idCliente != null) {
+        Get.offAllNamed('/login');
+      } else {
+        Get.toNamed('/cadastro-dados-pessoais');
+      }
+    } catch (e) {
+      throw e;
+    }
   }
 }

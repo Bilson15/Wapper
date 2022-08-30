@@ -14,7 +14,7 @@ class TelefoneClienteModel {
   });
 
   TelefoneClienteModel.fromJson(Map<String, dynamic> json) {
-    this.idTelefoneCliente = json['id'];
+    this.idTelefoneCliente = json['idTelefoneCliente'];
     this.ddd = json['ddd'];
     this.telefone = json['telefone'];
     this.statusTelefone = json['statusTelefone'];
@@ -22,7 +22,7 @@ class TelefoneClienteModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.idTelefoneCliente;
+    data['idTelefoneCliente'] = this.idTelefoneCliente;
     data['ddd'] = this.ddd;
     data['telefone'] = this.telefone;
     data['statusTelefone'] = this.statusTelefone;

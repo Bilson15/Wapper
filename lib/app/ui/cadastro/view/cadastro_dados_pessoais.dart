@@ -1,10 +1,8 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wapper/app/ui/cadastro/controller/cadastro_cliente_controller.dart';
 import 'package:wapper/app/ui/cadastro/controller/cadastro_dados_pessoais_controller.dart';
 import 'package:wapper/app/ui/components/button_component.dart';
-import 'package:wapper/app/ui/components/drop_down_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 import '../../components/app_bar_component.dart';
@@ -48,9 +46,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                     controller: controller.nome,
                     hintText: 'Nome Completo',
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Este campo é obrigatório!';
-                      }
+                      if (value == null || value.isEmpty) return 'Este campo é obrigatório!';
                     },
                     maxLength: 80,
                     fillColor: lineColor,
@@ -68,9 +64,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                           inputFormatter: [controller.maskFormatter.dataFormatter()],
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Este campo é obrigatório!';
-                            }
+                            if (value == null || value.isEmpty) return 'Este campo é obrigatório!';
+
+                            if ((controller.tratarString(value)?.length ?? 0) < 8) return 'Data inválida';
                           },
                           textInputAction: TextInputAction.next,
                           fillColor: lineColor,
@@ -88,7 +84,6 @@ class CadastroDadosPessoais extends StatelessWidget {
 
                           onChanged: (value) {
                             controller.sexo.text = value.toString();
-                            controller.formKey.currentState!.validate();
 
                             FocusScope.of(context).requestFocus(controller.nextCpf);
                           },
@@ -125,9 +120,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                             );
                           },
                           validator: (value) {
-                            if (controller.sexo.text.toString().isEmpty) {
-                              return 'Este campo é obrigatório!';
-                            }
+                            if (controller.sexo.text.toString().isEmpty) return 'Este campo é obrigatório!';
                           },
 
                           dropdownSearchBaseStyle: TextStyle(
@@ -174,6 +167,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                     textInputAction: TextInputAction.next,
                     inputFormatter: [controller.maskFormatter.cpfFormatter()],
                     hintText: 'CPF (Opcional)',
+                    validator: (value) {
+                      if ((controller.tratarString(value)?.length ?? 0) < 11) return 'CPF inválido';
+                    },
                     keyboardType: TextInputType.number,
                     fillColor: lineColor,
                     maxLength: 14,
@@ -188,9 +184,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                     inputFormatter: [controller.maskFormatter.telefoneInputFormmater()],
                     keyboardType: TextInputType.number,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Este campo é obrigatório!';
-                      }
+                      if (value == null || value.isEmpty) return 'Este campo é obrigatório!';
+
+                      if ((controller.tratarString(value)?.length ?? 0) < 11) return 'Telefone inválido';
                     },
                     maxLength: 15,
                     fillColor: lineColor,
@@ -213,9 +209,9 @@ class CadastroDadosPessoais extends StatelessWidget {
                     inputFormatter: [controller.maskFormatter.cepInputFormmater()],
                     keyboardType: TextInputType.number,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Este campo é obrigatório!';
-                      }
+                      if (value == null || value.isEmpty) return 'Este campo é obrigatório!';
+
+                      if ((controller.tratarString(value)?.length ?? 0) < 8) return 'CEP inválido';
                     },
                     fillColor: lineColor,
                     maxLength: 9,
@@ -229,9 +225,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                     hintText: 'Endereço',
                     maxLength: 100,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Este campo é obrigatório!';
-                      }
+                      if (value == null || value.isEmpty) return 'Este campo é obrigatório!';
                     },
                     fillColor: lineColor,
                   ),
@@ -247,9 +241,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                           textInputAction: TextInputAction.next,
                           hintText: 'Bairro',
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Este campo é obrigatório!';
-                            }
+                            if (value == null || value.isEmpty) return 'Este campo é obrigatório!';
                           },
                           fillColor: lineColor,
                           maxLength: 35,
@@ -264,9 +256,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                           textInputAction: TextInputAction.next,
                           hintText: 'Número',
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Este campo é obrigatório!';
-                            }
+                            if (value == null || value.isEmpty) return 'Este campo é obrigatório!';
                           },
                           maxLength: 10,
                           fillColor: lineColor,
@@ -283,12 +273,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                     onFieldSubmitted: (value) {
                       controller.formKey.currentState!.validate();
                     },
-                    hintText: 'Complemento',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Este campo é obrigatório!';
-                      }
-                    },
+                    hintText: 'Complemento (Opcional)',
                     maxLength: 80,
                     fillColor: lineColor,
                   ),
@@ -300,9 +285,7 @@ class CadastroDadosPessoais extends StatelessWidget {
                     child: ButtonComponent(
                       titulo: 'Finalizar cadastro',
                       onPressed: () async {
-                        if (controller.formKey.currentState!.validate()) {
-                          await controller.finalizarCadastro();
-                        }
+                        if (controller.formKey.currentState!.validate()) await controller.finalizarCadastro();
                       },
                       fontColor: fontColor,
                       backgroundColor: amareloPadrao,

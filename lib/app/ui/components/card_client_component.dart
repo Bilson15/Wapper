@@ -1,16 +1,26 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wapper/app/data/model/empresaModel.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
+import 'package:wapper/app/ui/home_page/controller/home_controller.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
+// ignore: must_be_immutable
 class CardClientComponent extends StatelessWidget {
-  const CardClientComponent({Key? key}) : super(key: key);
+  EmpresaModel? empresa = EmpresaModel();
+  CardClientComponent({Key? key, this.empresa}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final homeController = Get.find<HomeController>(tag: 'home_controller');
     return GestureDetector(
       onTap: () {
         Get.toNamed('/info-parceiro');
+        homeController.empresasIds.value.add(empresa?.id.toString() ?? '');
+        print(homeController.empresasIds.value.first);
+        homeController.saveUltimosAcessos();
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -20,15 +30,24 @@ class CardClientComponent extends StatelessWidget {
               flex: 0,
               child: Padding(
                 padding: const EdgeInsets.only(right: 20),
-                child: Container(
-                  width: 66,
-                  height: 66,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: NetworkImage(
-                          "https://img.elo7.com.br/product/zoom/2E9706C/logotipo-personalizada-barbearia-arte-digital-tesoura.jpg"),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    color: empresa?.colorAvatar,
+                    child: Center(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextComponent(
+                            '${empresa?.razaoSocial?.split(' ').first[0].toUpperCase() ?? ''}',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -42,7 +61,7 @@ class CardClientComponent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextComponent(
-                        'Barbearia do Zé',
+                        empresa?.razaoSocial ?? '',
                         color: fontColor,
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -73,7 +92,7 @@ class CardClientComponent extends StatelessWidget {
                           Container(
                             width: Get.width * 0.45,
                             child: TextComponent(
-                              '• Barbearia mascúlino • 2,9 km',
+                              '• ${empresa?.ramoAtividade ?? ''}',
                               color: cinzaPadrao,
                               textOverflow: TextOverflow.ellipsis,
                               fontWeight: FontWeight.bold,

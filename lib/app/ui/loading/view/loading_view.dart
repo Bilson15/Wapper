@@ -13,29 +13,32 @@ class LoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoadingController());
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: azulPadrao,
+    return WillPopScope(
+      onWillPop: null,
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: azulPadrao,
+            ),
           ),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            LoadingComponent(
-              height: 100,
-              width: 100,
-            ),
-            const SizedBox(
-              height: 35,
-            ),
-            Obx(
-              (() => TextComponent('Carregando${controller.pontinho.value}', fontSize: 30, fontWeight: FontWeight.bold)),
-            ),
-          ],
-        )
-      ],
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              LoadingComponent(
+                height: 100,
+                width: 100,
+              ),
+              const SizedBox(
+                height: 35,
+              ),
+              Obx(
+                (() => TextComponent('Carregando${controller.pontinho.value}', fontSize: 30, fontWeight: FontWeight.bold)),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

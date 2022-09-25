@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
@@ -12,6 +14,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>(tag: 'home_controller');
+    controller.buscarEmpresasUltimosAcessos();
     return Scaffold(
       body: Column(
         children: [
@@ -41,70 +44,88 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
-                child: TextComponent(
-                  'Últimos acessos',
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                  color: fontColor,
-                ),
-              ),
-            ],
+          Obx(
+            (() => controller.listUltimosAcessos.length > 0
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+                        child: TextComponent(
+                          'Últimos acessos',
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold,
+                          color: fontColor,
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox.shrink()),
           ),
-          SizedBox(
-            height: 105,
-            width: Get.width,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: ListView.builder(
-                controller: ScrollController(initialScrollOffset: 0),
-                itemCount: 15,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.toNamed('/info-parceiro');
-                    },
+          Obx(
+            () => controller.listUltimosAcessos.length > 0
+                ? Container(
+                    height: 80,
+                    width: Get.width,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: SizedBox(
-                        width: 67,
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 66,
-                              height: 66,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(
-                                          "https://img.elo7.com.br/product/zoom/2E9706C/logotipo-personalizada-barbearia-arte-digital-tesoura.jpg"))),
-                            ),
-                            Flexible(
-                              child: TextComponent(
-                                'Barbearia do Zé',
-                                color: cinzaPadrao,
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                textAlign: TextAlign.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Obx(
+                        () => ListView.builder(
+                          controller: ScrollController(initialScrollOffset: 0),
+                          itemCount: controller.listUltimosAcessos.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Get.toNamed('/info-parceiro');
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 14),
+                                child: SizedBox(
+                                  width: 67,
+                                  child: Column(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Container(
+                                          height: 40,
+                                          width: 40,
+                                          color: controller.listUltimosAcessos[index].colorAvatar,
+                                          child: Center(
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                TextComponent(
+                                                  '${controller.listUltimosAcessos[index].razaoSocial?.split(' ').first[0].toUpperCase() ?? ''}',
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: TextComponent(
+                                          controller.listUltimosAcessos[index].razaoSocial ?? '',
+                                          color: cinzaPadrao,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
-                            )
-                          ],
+                            );
+                          },
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 8,
+                  )
+                : SizedBox.shrink(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -121,19 +142,47 @@ class HomePage extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 16,
+            height: 8,
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: ListView.builder(
-                controller: ScrollController(initialScrollOffset: 0),
-                itemCount: 15,
-                itemBuilder: (context, index) {
-                  return CardClientComponent();
-                },
-              ),
-            ),
+          Obx(
+            () => controller.listEmpresas.length > 0
+                ? Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Stack(
+                        children: [
+                          ListView.builder(
+                            controller: controller.scrollController,
+                            itemCount: controller.listEmpresas.length,
+                            itemBuilder: (context, index) {
+                              return CardClientComponent(
+                                empresa: controller.listEmpresas[index],
+                              );
+                            },
+                          ),
+                          controller.loading.value!
+                              ? Stack(children: [
+                                  Positioned(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 5,
+                                      color: azulPadrao,
+                                    ),
+                                    left: (Get.width / 2) - 20,
+                                    bottom: 16,
+                                  ),
+                                ])
+                              : SizedBox.shrink()
+                        ],
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 32),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 5,
+                      color: azulPadrao,
+                    ),
+                  ),
           ),
         ],
       ),

@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:wapper/app/data/model/clienteModel.dart';
+import 'package:wapper/app/data/model/loginModel.dart';
+import 'package:wapper/app/data/repository/ClienteRepository.dart';
 import 'package:wapper/app/ui/utils/notificacao.dart';
-import 'package:wapper/app/ui/utils/validacao_email.dart';
 
 class LoginController extends GetxController {
   late TextEditingController email = TextEditingController();
   late TextEditingController senha = TextEditingController();
   GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
+  ClienteRepository clienteRepository = ClienteRepository();
+  late ClienteModel cliente;
   FocusNode nextFocus = FocusNode();
   int controleValidate = 0;
   var visibility = false.obs;
@@ -29,8 +33,19 @@ class LoginController extends GetxController {
   }
 
   efetuaLogin() async {
-    Get.offAllNamed('/loading');
-    await Future.delayed(const Duration(seconds: 5));
-    Get.offAllNamed('/root/0');
+    try {
+      Get.offAllNamed('/loading');
+
+      LoginModel loginModel = LoginModel(email: email.text, senha: senha.text);
+      cliente = await clienteRepository.login(loginModel);
+      if (cliente.idCliente != null) {
+        Get.offAllNamed('/root/0');
+      } else {
+        Notificacao.snackBar('Ocorreu um erro, tente novamente', tipoNotificacao: TipoNotificacaoEnum.error);
+      }
+    } catch (e) {
+      Notificacao.snackBar(e.toString(), tipoNotificacao: TipoNotificacaoEnum.error);
+      Get.offAllNamed('/login');
+    } finally {}
   }
 }

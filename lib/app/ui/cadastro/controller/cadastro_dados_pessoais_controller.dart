@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:wapper/app/data/model/clienteModel.dart';
 import 'package:wapper/app/data/model/enderecoModel.dart';
 import 'package:wapper/app/data/model/telefoneClienteModel.dart';
-import 'package:wapper/app/data/repository/ClienteRepository.dart';
+import 'package:wapper/app/data/repository/clienteRepository.dart';
 import 'package:wapper/app/ui/cadastro/controller/cadastro_cliente_controller.dart';
 import 'package:wapper/app/ui/loading/view/loading_view.dart';
 import 'package:wapper/app/ui/utils/mask_formatter.dart';
@@ -45,13 +45,11 @@ class CadastroDadosPessoaisController extends GetxController {
 
   finalizarCadastro() async {
     try {
-      Get.offNamedUntil(
-        '/loading',
-        (route) => LoadingView() == LoadingView(),
-      );
+      Get.to(LoadingView());
       ClienteModel cliente = criarModelo();
       await criarCliente(cliente);
     } catch (e) {
+      Get.close(1);
       Notificacao.snackBar(e.toString());
       Get.toNamed('/cadastro-dados-pessoais');
     }

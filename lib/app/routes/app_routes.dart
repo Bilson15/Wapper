@@ -60,15 +60,15 @@ class AppRoutes {
     ),
     GetPage(
       name: '/info-pedido',
-      page: () => const InfoPedido(),
+      page: () => InfoPedido(),
     ),
     GetPage(
       name: '/feedback-page',
       page: () => FeedBackPage(),
     ),
     GetPage(
-      name: '/info-parceiro',
-      page: () => InfoParceiro(),
+      name: '/info-parceiro/:index',
+      page: () => InfoParceiro(idEmpresa: int.parse(Get.parameters['index']!)),
     ),
     GetPage(
       name: '/servico-parceiro',

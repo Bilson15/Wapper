@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wapper/app/data/model/empresaModel.dart';
 import 'package:wapper/app/ui/components/card_client_component.dart';
 import 'package:wapper/app/ui/components/form_field_component.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
@@ -35,7 +36,9 @@ class SearchPage extends StatelessWidget {
                 controller: ScrollController(initialScrollOffset: 0),
                 itemCount: 15,
                 itemBuilder: (context, index) {
-                  return CardClientComponent();
+                  return CardClientComponent(
+                    empresa: EmpresaModel(),
+                  );
                 },
               ),
             ),

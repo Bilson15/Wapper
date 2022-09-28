@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextComponent(
-                  'R. 19-D, 839',
+                  'Bem-vindo (a)',
                   color: cinzaPadrao,
                   fontWeight: FontWeight.bold,
                 ),
@@ -72,12 +72,12 @@ class HomePage extends StatelessWidget {
                       child: Obx(
                         () => ListView.builder(
                           controller: ScrollController(initialScrollOffset: 0),
-                          itemCount: controller.listUltimosAcessos.length,
+                          itemCount: controller.listUltimosAcessos.length > 10 ? 10 : controller.listUltimosAcessos.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                Get.toNamed('/info-parceiro');
+                                Get.toNamed('/info-parceiro/${controller.listUltimosAcessos[index].id}');
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -90,7 +90,7 @@ class HomePage extends StatelessWidget {
                                         child: Container(
                                           height: 40,
                                           width: 40,
-                                          color: controller.listUltimosAcessos[index].colorAvatar,
+                                          color: azulPadrao,
                                           child: Center(
                                             child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.center,

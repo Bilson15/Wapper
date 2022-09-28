@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wapper/app/data/model/empresaModel.dart';
@@ -8,19 +6,22 @@ import 'package:wapper/app/ui/home_page/controller/home_controller.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
 // ignore: must_be_immutable
-class CardClientComponent extends StatelessWidget {
-  EmpresaModel? empresa = EmpresaModel();
-  CardClientComponent({Key? key, this.empresa}) : super(key: key);
+class CardClientComponent extends StatefulWidget {
+  EmpresaModel empresa = EmpresaModel();
+  CardClientComponent({Key? key, required this.empresa}) : super(key: key);
 
+  @override
+  State<CardClientComponent> createState() => _CardClientComponentState();
+}
+
+class _CardClientComponentState extends State<CardClientComponent> {
   @override
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>(tag: 'home_controller');
     return GestureDetector(
       onTap: () {
-        Get.toNamed('/info-parceiro');
-        homeController.empresasIds.value.add(empresa?.id.toString() ?? '');
-        print(homeController.empresasIds.value.first);
-        homeController.saveUltimosAcessos();
+        Get.toNamed('/info-parceiro/${widget.empresa.id}');
+        homeController.clickSaveUltimoAcesso(widget.empresa.id.toString());
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -35,14 +36,14 @@ class CardClientComponent extends StatelessWidget {
                   child: Container(
                     height: 40,
                     width: 40,
-                    color: empresa?.colorAvatar,
+                    color: azulPadrao,
                     child: Center(
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           TextComponent(
-                            '${empresa?.razaoSocial?.split(' ').first[0].toUpperCase() ?? ''}',
+                            '${widget.empresa.razaoSocial?.split(' ').first[0].toUpperCase() ?? ''}',
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -61,7 +62,7 @@ class CardClientComponent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextComponent(
-                        empresa?.razaoSocial ?? '',
+                        widget.empresa.razaoSocial ?? '',
                         color: fontColor,
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -92,7 +93,7 @@ class CardClientComponent extends StatelessWidget {
                           Container(
                             width: Get.width * 0.45,
                             child: TextComponent(
-                              '• ${empresa?.ramoAtividade ?? ''}',
+                              '• ${widget.empresa.ramoAtividade ?? ''}',
                               color: cinzaPadrao,
                               textOverflow: TextOverflow.ellipsis,
                               fontWeight: FontWeight.bold,
@@ -109,8 +110,12 @@ class CardClientComponent extends StatelessWidget {
             Expanded(
               flex: 0,
               child: GestureDetector(
-                onTap: () {},
-                child: 1 == 1
+                onTap: () {
+                  setState(() {
+                    widget.empresa.favorite = !widget.empresa.favorite;
+                  });
+                },
+                child: !widget.empresa.favorite
                     ? Icon(
                         size: 25,
                         Icons.favorite_border,

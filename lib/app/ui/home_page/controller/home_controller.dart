@@ -7,7 +7,6 @@ import 'package:wapper/app/data/repository/empresaRepository.dart';
 import 'package:wapper/app/ui/utils/notificacao.dart';
 
 class HomeController extends GetxController {
-  var favorite = false.obs;
   EmpresaRepository empresaRepository = EmpresaRepository();
   RxList<EmpresaModel> listEmpresas = <EmpresaModel>[].obs;
   PageModel pagina = PageModel();
@@ -32,7 +31,6 @@ class HomeController extends GetxController {
   buscarEmpresas() async {
     try {
       loading(true);
-      print(pagina.pageNumber);
       List retorno = await empresaRepository.buscarEmpresas(pagina.pageNumber);
       await Future.delayed(Duration(seconds: 1));
       listEmpresas.addAll(retorno[0]);
@@ -54,7 +52,9 @@ class HomeController extends GetxController {
 
   saveUltimosAcessos() async {
     prefs = await SharedPreferences.getInstance();
-    await prefs?.setStringList('ultimos_acessos', empresasIds.value);
+    if (empresasIds.value.length <= 10) {
+      await prefs?.setStringList('ultimos_acessos', empresasIds.value);
+    }
   }
 
   void getUltimosAcessos() async {
@@ -64,24 +64,31 @@ class HomeController extends GetxController {
 
   void buscarEmpresasUltimosAcessos() async {
     getUltimosAcessos();
-    loadingUltimosAcessos.value = true;
+    loadingUltimosAcessos(true);
     listUltimosAcessos.clear();
+    List<EmpresaModel> empresas = [];
     try {
       await Future.forEach(empresasIds.value, (String? id) async {
         EmpresaModel? empresaModel = (await empresaRepository.buscarEmpresa(id ?? ''));
 
         if (empresaModel.id != null) {
           if (!listUltimosAcessos.any((element) => element.id == empresaModel.id)) {
-            listUltimosAcessos.add(empresaModel);
-            loadingUltimosAcessos.value = false;
-            listUltimosAcessos.refresh();
+            empresas.add(empresaModel);
+            loadingUltimosAcessos(false);
           }
         }
       });
     } catch (e) {
-      print('eeeee ${e}');
+      print('ERROR - ${e}');
     } finally {
-      loadingUltimosAcessos.value = false;
+      listUltimosAcessos.addAll(empresas.reversed);
+      listUltimosAcessos.refresh();
+      loadingUltimosAcessos(false);
     }
+  }
+
+  clickSaveUltimoAcesso(String id) {
+    empresasIds.value.add(id);
+    saveUltimosAcessos();
   }
 }

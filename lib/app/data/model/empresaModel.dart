@@ -1,6 +1,4 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wapper/app/data/model/enderecoModel.dart';
 import 'package:wapper/app/data/model/telefoneClienteModel.dart';
 
@@ -25,7 +23,7 @@ class EmpresaModel {
   int? statusEmpresa;
   List<TelefoneClienteModel>? telefoneCliente;
   List<EnderecoModel>? endereco;
-  Color colorAvatar = Colors.primaries[Random().nextInt(Colors.primaries.length)];
+  bool favorite = false;
 
   EmpresaModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

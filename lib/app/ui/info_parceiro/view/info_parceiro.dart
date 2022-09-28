@@ -5,13 +5,16 @@ import 'package:get/get.dart';
 import 'package:wapper/app/ui/components/app_bar_component.dart';
 import 'package:wapper/app/ui/components/card_service_seller.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
+import 'package:wapper/app/ui/info_parceiro/controller/info_parceiro_controller.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
 class InfoParceiro extends StatelessWidget {
-  const InfoParceiro({Key? key}) : super(key: key);
+  int idEmpresa;
+  InfoParceiro({Key? key, required this.idEmpresa}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(InfoParceiroController(idEmpresa));
     return Scaffold(
       appBar: AppBarComponent(
         textComponent: const TextComponent(

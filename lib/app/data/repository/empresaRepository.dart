@@ -38,7 +38,6 @@ class EmpresaRepository {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(data);
       EmpresaModel empresa = EmpresaModel.fromJson(data);
 
       return empresa;

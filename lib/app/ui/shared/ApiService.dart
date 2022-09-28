@@ -32,8 +32,6 @@ class ApiService {
   Future<dynamic> post(String path, body) async {
     try {
       var uri = Uri.parse(baseUrl! + path);
-      print(uri);
-      print(jsonEncode(body));
       var response = await http.post(uri, headers: headers, body: jsonEncode(body));
 
       return response;

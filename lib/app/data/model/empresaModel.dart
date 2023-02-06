@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wapper/app/data/model/enderecoModel.dart';
+import 'package:wapper/app/data/model/servicoModel.dart';
 import 'package:wapper/app/data/model/telefoneClienteModel.dart';
 
 class EmpresaModel {
@@ -23,6 +24,7 @@ class EmpresaModel {
   int? statusEmpresa;
   List<TelefoneClienteModel>? telefoneCliente;
   List<EnderecoModel>? endereco;
+  List<ServicoModel>? servicos;
   bool favorite = false;
 
   EmpresaModel.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,11 @@ class EmpresaModel {
             return EnderecoModel.fromJson(data);
           }).toList()
         : null;
+    servicos = json['servico'] != null
+        ? json['servico'].map<ServicoModel>((data) {
+            return ServicoModel.fromJson(data);
+          }).toList()
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +63,7 @@ class EmpresaModel {
     _data['statusEmpresa'] = statusEmpresa;
     _data['telefoneCliente'] = this.endereco != null ? this.telefoneCliente!.map((e) => e.toJson()).toList() : null;
     _data['endereco'] = this.endereco != null ? this.endereco!.map((e) => e.toJson()).toList() : null;
+    _data['servico'] = this.servicos != null ? this.servicos!.map((e) => e.toJson()).toList() : null;
     return _data;
   }
 }

@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'package:wapper/app/data/model/servicoModel.dart';
 import 'package:wapper/app/ui/components/app_bar_component.dart';
 import 'package:wapper/app/ui/components/button_component.dart';
-import 'package:wapper/app/ui/components/card_service_seller.dart';
 import 'package:wapper/app/ui/components/form_field_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
+import 'package:wapper/app/ui/service_parceiro/controller/service_parceiro_controller.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
 class ServicoParceiro extends StatelessWidget {
-  const ServicoParceiro({Key? key}) : super(key: key);
+  final ServicoModel servico;
+  const ServicoParceiro({Key? key, required this.servico}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ServiceParceiroController(servico: servico));
     return Scaffold(
       appBar: AppBarComponent(
         textComponent: const TextComponent(
@@ -30,7 +34,7 @@ class ServicoParceiro extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: TextComponent(
-                      'Corte de cabelo + Barba',
+                      controller.servico.titulo ?? '',
                       color: fontColor,
                       fontWeight: FontWeight.w600,
                     ),
@@ -43,7 +47,7 @@ class ServicoParceiro extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 4),
                             child: TextComponent(
-                              'Corte mascúlino, degradê, social ou á sua escolha',
+                              controller.servico.resumo ?? '',
                               color: cinzaPadrao,
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
@@ -84,22 +88,31 @@ class ServicoParceiro extends StatelessWidget {
                         return Container(
                           height: Get.height / 2,
                           child: ListView.builder(
-                            itemCount: 10,
+                            itemCount: controller.servico.profissionais?.length ?? 0,
                             itemBuilder: ((context, index) {
                               return ListTile(
-                                  leading: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: NetworkImage(
-                                            "https://media.istockphoto.com/illustrations/illustration-of-a-stylish-young-man-avatar-of-a-man-for-profile-for-illustration-id1256010006"),
+                                  leading: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Container(
+                                      height: 55,
+                                      width: 55,
+                                      color: azulPadrao,
+                                      child: Center(
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            TextComponent(
+                                              '${controller.servico.profissionais?[index].nome!.split(' ').first[0].toUpperCase()}',
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  title: new Text('Alexandre ${index}'),
+                                  title: new Text(controller.servico.profissionais?[index].nome ?? ''),
                                   subtitle: Row(
                                     children: [
                                       Row(
@@ -123,7 +136,7 @@ class ServicoParceiro extends StatelessWidget {
                                           ),
                                           Container(
                                             child: TextComponent(
-                                              '• Barbeiro • Mascúlino',
+                                              controller.servico.profissionais?[index].resumo ?? '',
                                               color: cinzaPadrao,
                                               textOverflow: TextOverflow.ellipsis,
                                               fontWeight: FontWeight.bold,
@@ -136,6 +149,7 @@ class ServicoParceiro extends StatelessWidget {
                                   ),
                                   onTap: () {
                                     Get.back();
+                                    controller.selecionarProfissional(controller.servico.profissionais![index]);
                                   });
                             }),
                           ),
@@ -152,67 +166,114 @@ class ServicoParceiro extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: NetworkImage(
-                                        "https://media.istockphoto.com/illustrations/illustration-of-a-stylish-young-man-avatar-of-a-man-for-profile-for-illustration-id1256010006"),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          TextComponent(
-                                            'Alexandre',
-                                            color: fontColor,
-                                            fontWeight: FontWeight.bold,
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: Obx(() => controller.profissionalSelecionado.value != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Container(
+                                        height: 50,
+                                        width: 50,
+                                        color: azulPadrao,
+                                        child: Center(
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              TextComponent(
+                                                '${controller.profissionalSelecionado.value!.nome!.split(' ').first[0].toUpperCase()}',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            size: 15,
-                                            Icons.star,
-                                            color: amareloPadrao,
+                                    )
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Container(
+                                        height: 50,
+                                        width: 50,
+                                        color: azulPadrao,
+                                        child: Center(
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              TextComponent(
+                                                '?',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ],
                                           ),
-                                          const SizedBox(
-                                            width: 4,
-                                          ),
-                                          TextComponent(
-                                            '4,5',
-                                            color: amareloPadrao,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          const SizedBox(
-                                            width: 4,
-                                          ),
-                                          Container(
-                                            child: TextComponent(
-                                              '• Barbeiro • Mascúlino',
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  )),
+                                        ),
+                                      ),
+                                    )),
+                            ),
+                            Obx(
+                              () => controller.profissionalSelecionado.value != null
+                                  ? Expanded(
+                                      child: Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 8),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  TextComponent(
+                                                    controller.profissionalSelecionado.value?.nome ?? '',
+                                                    color: fontColor,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    size: 15,
+                                                    Icons.star,
+                                                    color: amareloPadrao,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  TextComponent(
+                                                    '4,5',
+                                                    color: amareloPadrao,
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  Container(
+                                                    child: TextComponent(
+                                                      controller.profissionalSelecionado.value?.resumo ?? '',
+                                                      color: cinzaPadrao,
+                                                      textOverflow: TextOverflow.ellipsis,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    )
+                                  : Expanded(
+                                      child: Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 8),
+                                          child: Row(
+                                            children: [
+                                              TextComponent(
+                                                'Selecione o profissional',
+                                                color: fontColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ],
+                                          )),
+                                    ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import 'package:wapper/app/data/model/servicoModel.dart';
 import 'package:wapper/app/ui/components/app_bar_component.dart';
@@ -311,175 +312,93 @@ class ServicoParceiro extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(top: 4, bottom: 16),
                         child: TextComponent(
-                          'Selecione o Horário',
+                          'Selecione o horário',
                           fontWeight: FontWeight.w600,
                           color: fontColor,
                         ),
                       ),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                          context: context,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
-                          ),
-                          elevation: 0,
-                          builder: (BuildContext context) {
-                            return Container(
-                              height: Get.height / 2,
-                              child: ListView.builder(
-                                itemCount: 10,
-                                itemBuilder: ((context, index) {
-                                  return ListTile(
-                                      title: Row(
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 4),
-                                            child: TextComponent(
-                                              '12:00',
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 4),
-                                            child: TextComponent(
-                                              '•',
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 4),
-                                            child: TextComponent(
-                                              '13:00',
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 4),
-                                            child: TextComponent(
-                                              '-',
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 4),
-                                            child: TextComponent(
-                                              (index % 2 == 0 ? 'Disponível' : 'Reservado'),
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      onTap: () {
-                                        Get.back();
-                                      });
-                                }),
-                              ),
-                            );
-                          });
-                    },
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(80), color: backgroundFieldColor),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 8),
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 4),
-                                            child: TextComponent(
-                                              '12:00',
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 4),
-                                            child: TextComponent(
-                                              '•',
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 4),
-                                            child: TextComponent(
-                                              '13:00',
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 4),
-                                            child: TextComponent(
-                                              '-',
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 4),
-                                            child: TextComponent(
-                                              'Disponível',
-                                              color: cinzaPadrao,
-                                              textOverflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        size: 40,
-                                        Icons.keyboard_arrow_down,
-                                        color: fontColor,
-                                      ),
-                                    ],
+                  Container(
+                    height: 45,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      child: ListView.builder(
+                        itemCount: 10,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Container(
+                                color: azulPadrao,
+                                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                child: Center(
+                                  child: TextComponent(
+                                    '08:00',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
-                                )
-                              ],
+                                ),
+                              ),
                             ),
-                          ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Divider(
+                    thickness: 1,
+                    color: lineColor,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 4, bottom: 16),
+                        child: TextComponent(
+                          'Selecione a data',
+                          fontWeight: FontWeight.w600,
+                          color: fontColor,
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  Obx(
+                    () => TableCalendar(
+                      firstDay: controller.kFirstDay,
+                      lastDay: controller.kLastDay,
+                      focusedDay: controller.focusedDay.value,
+                      calendarStyle: CalendarStyle(
+                          selectedDecoration: const BoxDecoration(color: Color.fromARGB(255, 0, 21, 79), shape: BoxShape.circle),
+                          todayDecoration: const BoxDecoration(color: Color.fromARGB(100, 0, 21, 79), shape: BoxShape.circle)),
+                      availableCalendarFormats: const {
+                        CalendarFormat.twoWeeks: 'TwoWeeks',
+                      },
+                      calendarFormat: controller.calendarFormat.value,
+                      locale: 'en_US',
+                      selectedDayPredicate: (day) {
+                        return isSameDay(controller.diaSelecionado.value, day);
+                      },
+                      onDaySelected: (selectedDay, focusedDay) {
+                        if (!isSameDay(controller.diaSelecionado.value, selectedDay)) {
+                          controller.diaSelecionado.value = selectedDay;
+                          controller.focusedDay.value = focusedDay;
+                        }
+                      },
+                      onFormatChanged: (format) {
+                        if (controller.calendarFormat.value != format) {
+                          controller.calendarFormat.value = format;
+                        }
+                      },
+                      onPageChanged: (focusedDay) {
+                        controller.focusedDay.value = focusedDay;
+                      },
                     ),
                   ),
                   const SizedBox(

@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+
 class ProfissionalModel {
   int? id;
   String? resumo;
   String? nome;
   int? status;
-  String? inicioAtendimento;
-  String? fimAtendimento;
+  TimeOfDay? inicioAtendimento;
+  TimeOfDay? fimAtendimento;
 
   ProfissionalModel({
     this.id,
@@ -20,8 +22,8 @@ class ProfissionalModel {
     this.resumo = json['resumo'];
     this.nome = json['nome'];
     this.status = json['status_profissional'];
-    this.inicioAtendimento = json['inicio_atendimento'];
-    this.fimAtendimento = json['fim_atendimento'];
+    this.inicioAtendimento = _tratarHorario(json['inicio_atendimento']);
+    this.fimAtendimento = _tratarHorario(json['fim_atendimento']);
   }
 
   Map<String, dynamic> toJson() {
@@ -33,5 +35,12 @@ class ProfissionalModel {
     data['inicio_atendimento'] = this.inicioAtendimento;
     data['fim_atendimento'] = this.fimAtendimento;
     return data;
+  }
+
+  TimeOfDay _tratarHorario(String json) {
+    int hour = int.parse(json.split(':')[0]);
+    int minute = int.parse(json.split(':')[1]);
+
+    return TimeOfDay(hour: hour, minute: minute);
   }
 }

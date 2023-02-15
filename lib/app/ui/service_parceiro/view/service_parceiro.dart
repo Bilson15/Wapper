@@ -297,59 +297,6 @@ class ServicoParceiro extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
-              Column(
-                children: [
-                  Divider(
-                    thickness: 1,
-                    color: lineColor,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 4, bottom: 16),
-                        child: TextComponent(
-                          'Selecione o horário',
-                          fontWeight: FontWeight.w600,
-                          color: fontColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    height: 45,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 2),
-                      child: ListView.builder(
-                        itemCount: 10,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Container(
-                                color: azulPadrao,
-                                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                child: Center(
-                                  child: TextComponent(
-                                    '08:00',
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               Column(
                 children: [
                   Divider(
@@ -410,6 +357,62 @@ class ServicoParceiro extends StatelessWidget {
                   ),
                   const SizedBox(
                     height: 8,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 4, bottom: 16),
+                        child: TextComponent(
+                          'Selecione o horário',
+                          fontWeight: FontWeight.w600,
+                          color: fontColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 45,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      child: ListView.builder(
+                        itemCount: 10,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Container(
+                                color: azulPadrao,
+                                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                child: Center(
+                                  child: TextComponent(
+                                    '08:00',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: lineColor,
+                  ),
+                  const SizedBox(
+                    height: 16,
                   ),
                 ],
               ),

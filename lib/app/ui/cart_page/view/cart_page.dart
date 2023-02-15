@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:wapper/app/ui/cart_page/controller/cart_controller.dart';
 import 'package:wapper/app/ui/components/app_bar_component.dart';
 import 'package:wapper/app/ui/components/button_component.dart';
-import 'package:wapper/app/ui/components/card_service_seller.dart';
 import 'package:wapper/app/ui/components/item_pedido_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
@@ -15,7 +12,7 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CartController());
+    final controller = Get.find<CartController>(tag: 'cart_controller');
     return Scaffold(
       appBar: AppBarComponent(
         textComponent: const TextComponent(

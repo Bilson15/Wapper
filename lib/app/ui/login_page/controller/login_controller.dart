@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wapper/app/data/model/clienteModel.dart';
 import 'package:wapper/app/data/model/loginModel.dart';
 import 'package:wapper/app/data/repository/ClienteRepository.dart';
+import 'package:wapper/app/ui/cart_page/controller/cart_controller.dart';
 import 'package:wapper/app/ui/utils/notificacao.dart';
 
 class LoginController extends GetxController {
@@ -14,6 +15,8 @@ class LoginController extends GetxController {
   FocusNode nextFocus = FocusNode();
   int controleValidate = 0;
   var visibility = false.obs;
+
+  final cartController = Get.find<CartController>(tag: 'cart_controller');
 
   LoginController();
 
@@ -39,6 +42,8 @@ class LoginController extends GetxController {
       LoginModel loginModel = LoginModel(email: email.text, senha: senha.text);
       cliente = await clienteRepository.login(loginModel);
       if (cliente.idCliente != null) {
+        cartController.clienteLogado.value = cliente;
+
         Get.offAllNamed('/root/0');
       } else {
         Notificacao.snackBar('Ocorreu um erro, tente novamente', tipoNotificacao: TipoNotificacaoEnum.error);

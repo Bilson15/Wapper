@@ -446,6 +446,7 @@ class ServicoParceiro extends StatelessWidget {
                     height: 8,
                   ),
                   InputFormFieldComponent(
+                    controller: controller.observacao,
                     maxLength: 140,
                     hintText: 'Ex: Chegarei 5 minutos adiantado do horário marcado...',
                     counterText: true,
@@ -463,7 +464,8 @@ class ServicoParceiro extends StatelessWidget {
                   backgroundColor: azulPadrao,
                   titulo: 'Confirmar',
                   onPressed: () {
-                    Get.toNamed('/cart-page');
+                    controller.confirmar();
+                    // Get.toNamed('/cart-page');
                   },
                 ),
               )

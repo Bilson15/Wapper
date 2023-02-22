@@ -140,7 +140,7 @@ class InfoParceiro extends StatelessWidget {
                                 child: CardServiceSeller(
                                   title: controller.empresa.value?.servicos?[index].titulo,
                                   description: controller.empresa.value?.servicos?[index].resumo,
-                                  value: 'R\$ ${controller.empresa.value?.servicos?[index].valor?.toStringAsFixed(2)}',
+                                  value: 'R\$ ${controller.empresa.value?.servicos?[index].valor.toStringAsFixed(2)}',
                                   icon: true,
                                 ),
                               );

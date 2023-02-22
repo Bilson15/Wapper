@@ -57,7 +57,7 @@ class ClienteModel {
     data['sexo'] = this.sexo;
     data['dataNascimento'] = this.dataNascimento.toString();
     data['status_cliente'] = this.statusCliente;
-    data['telefoneCliente'] = this.endereco != null ? this.telefoneCliente!.map((e) => e.toJson()).toList() : null;
+    data['telefoneCliente'] = this.telefoneCliente != null ? this.telefoneCliente!.map((e) => e.toJson()).toList() : null;
     data['endereco'] = this.endereco != null ? this.endereco!.map((e) => e.toJson()).toList() : null;
 
     return data;

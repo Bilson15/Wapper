@@ -4,7 +4,7 @@ class ServicoModel {
   int? id;
   String? titulo;
   String? resumo;
-  double? valor;
+  double valor = 0;
   String? tempo_do_servico;
   int? status;
   List<ProfissionalModel>? profissionais;
@@ -13,7 +13,7 @@ class ServicoModel {
     this.id,
     this.titulo,
     this.resumo,
-    this.valor,
+    this.valor = 0,
     this.tempo_do_servico,
     this.status,
     this.profissionais,
@@ -23,7 +23,7 @@ class ServicoModel {
     this.id = json['id_servico'];
     this.titulo = json['titulo'];
     this.resumo = json['resumo'];
-    this.valor = json['valor'];
+    this.valor = json['valor'] ?? 0;
     this.tempo_do_servico = json['tempo'];
     this.status = json['status'];
     this.profissionais = json['profissional'] != null

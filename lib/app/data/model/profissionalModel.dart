@@ -5,16 +5,16 @@ class ProfissionalModel {
   String? resumo;
   String? nome;
   int? status;
-  TimeOfDay? inicioAtendimento;
-  TimeOfDay? fimAtendimento;
+  late TimeOfDay inicioAtendimento;
+  late TimeOfDay fimAtendimento;
 
   ProfissionalModel({
     this.id,
     this.resumo,
     this.nome,
     this.status,
-    this.inicioAtendimento,
-    this.fimAtendimento,
+    required this.inicioAtendimento,
+    required this.fimAtendimento,
   });
 
   ProfissionalModel.fromJson(Map<String, dynamic> json) {
@@ -32,8 +32,8 @@ class ProfissionalModel {
     data['resumo'] = this.resumo;
     data['nome'] = this.nome;
     data['status_profissional'] = this.status;
-    data['inicio_atendimento'] = this.inicioAtendimento;
-    data['fim_atendimento'] = this.fimAtendimento;
+    data['inicio_atendimento'] = '${this.inicioAtendimento.hour}:${this.inicioAtendimento.minute}:00';
+    data['fim_atendimento'] = '${this.fimAtendimento.hour}:${this.fimAtendimento.minute}:00';
     return data;
   }
 

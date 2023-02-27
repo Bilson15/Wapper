@@ -134,7 +134,10 @@ class InfoParceiro extends StatelessWidget {
                               return GestureDetector(
                                 onTap: () {
                                   if (controller.empresa.value != null && controller.empresa.value!.servicos?[index] != null) {
-                                    Get.to(ServicoParceiro(servico: controller.empresa.value!.servicos![index]));
+                                    Get.to(ServicoParceiro(
+                                      servico: controller.empresa.value!.servicos![index],
+                                      empresa: controller.empresa.value!,
+                                    ));
                                   }
                                 },
                                 child: CardServiceSeller(

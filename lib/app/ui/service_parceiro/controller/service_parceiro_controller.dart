@@ -4,16 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:table_calendar/table_calendar.dart';
+import 'package:wapper/app/data/model/empresaModel.dart';
 import 'package:wapper/app/data/model/itemPedido.dart';
 import 'package:wapper/app/data/model/pedidoModel.dart';
 import 'package:wapper/app/data/model/profissionalModel.dart';
 import 'dart:developer' as lg;
 import 'package:wapper/app/data/model/servicoModel.dart';
 import 'package:wapper/app/ui/cart_page/controller/cart_controller.dart';
+import 'package:wapper/app/ui/cart_page/view/cart_page.dart';
 import 'package:wapper/app/ui/utils/mask_formatter.dart';
+import 'package:wapper/app/ui/utils/notificacao.dart';
 
 class ServiceParceiroController extends GetxController {
   final ServicoModel servico;
+  final EmpresaModel empresa;
   final profissionalSelecionado = Rxn<ProfissionalModel>();
   TextEditingController observacao = TextEditingController(text: '');
   Rxn diaSelecionado = Rxn<DateTime>();
@@ -31,7 +35,7 @@ class ServiceParceiroController extends GetxController {
 
   final cartController = Get.find<CartController>(tag: 'cart_controller');
 
-  ServiceParceiroController({required this.servico});
+  ServiceParceiroController({required this.servico, required this.empresa});
 
   @override
   void onInit() async {
@@ -60,17 +64,32 @@ class ServiceParceiroController extends GetxController {
   }
 
   void confirmar() {
-    PedidoModel pedido = PedidoModel(
-      horarioMarcado: horarioSelecionado.value.timeOfDay,
-      cliente: cartController.clienteLogado.value!,
-      observacao: observacao.text,
-      valorPedido: 19.00,
-      itemsPedido: [
-        ItemPedidoModel(servicoModel: servico, profissionalModel: profissionalSelecionado.value!, valorItem: servico.valor)
-      ],
-    );
+    if (profissionalSelecionado.value == null) {
+      Notificacao.snackBar('Selecione o profissional', tipoNotificacao: TipoNotificacaoEnum.info);
+    } else {
+      if (diaSelecionado.value == null) {
+        Notificacao.snackBar('Selecione o dia', tipoNotificacao: TipoNotificacaoEnum.info);
+      } else {
+        if (horarioSelecionado.value == null) {
+          Notificacao.snackBar('Selecione o horário', tipoNotificacao: TipoNotificacaoEnum.info);
+        } else {
+          PedidoModel pedido = PedidoModel(
+            horarioMarcado: horarioSelecionado.value.timeOfDay,
+            diaMarcado: diaSelecionado.value,
+            cliente: cartController.clienteLogado.value!,
+            observacao: observacao.text,
+            valorPedido: servico.valor,
+            empresa: empresa,
+            itemsPedido: [
+              ItemPedidoModel(servicoModel: servico, profissionalModel: profissionalSelecionado.value!, valorItem: servico.valor)
+            ],
+          );
 
-    lg.log(jsonEncode(pedido.toJson()));
+          Get.to(CartPage(pedido: pedido));
+          lg.log(jsonEncode(pedido.toJson()));
+        }
+      }
+    }
   }
 }
 

@@ -70,9 +70,5 @@ class AppRoutes {
       name: '/info-parceiro/:index',
       page: () => InfoParceiro(idEmpresa: int.parse(Get.parameters['index']!)),
     ),
-    GetPage(
-      name: '/cart-page',
-      page: () => CartPage(),
-    ),
   ];
 }

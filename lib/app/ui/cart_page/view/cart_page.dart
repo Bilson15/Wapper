@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:wapper/app/data/model/pedidoModel.dart';
 import 'package:wapper/app/ui/cart_page/controller/cart_controller.dart';
 import 'package:wapper/app/ui/components/app_bar_component.dart';
 import 'package:wapper/app/ui/components/button_component.dart';
 import 'package:wapper/app/ui/components/item_pedido_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
+import 'package:wapper/app/ui/root/view/root.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({Key? key}) : super(key: key);
+  final PedidoModel pedido;
+
+  CartPage({Key? key, required this.pedido}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<CartController>(tag: 'cart_controller');
+    controller.pedido.value = this.pedido;
     return Scaffold(
       appBar: AppBarComponent(
         textComponent: const TextComponent(
@@ -27,9 +33,7 @@ class CartPage extends StatelessWidget {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           tooltip: 'Cancelar carrinho',
-          onPressed: () {
-            // handle the press
-          },
+          onPressed: () {},
         ),
       ),
       body: SingleChildScrollView(
@@ -45,7 +49,7 @@ class CartPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextComponent(
-                        'Barbearia do Zé',
+                        '${controller.pedido.value?.empresa.razaoSocial}',
                         color: fontColor,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -55,7 +59,7 @@ class CartPage extends StatelessWidget {
                         children: [
                           Container(
                             child: TextComponent(
-                              'Barbearia mascúlino • 2,9 km',
+                              '${controller.pedido.value?.empresa.ramoAtividade}',
                               color: cinzaPadrao,
                               textOverflow: TextOverflow.ellipsis,
                               fontWeight: FontWeight.bold,
@@ -83,18 +87,27 @@ class CartPage extends StatelessWidget {
                       )
                     ],
                   ),
-                  Container(
-                    width: 55,
-                    height: 55,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(
-                            "https://img.elo7.com.br/product/zoom/2E9706C/logotipo-personalizada-barbearia-arte-digital-tesoura.jpg"),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Container(
+                      height: 55,
+                      width: 55,
+                      color: azulPadrao,
+                      child: Center(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextComponent(
+                              '${controller.pedido.value!.empresa.razaoSocial!.split(' ').first[0].toUpperCase()}',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
               Divider(
@@ -138,10 +151,11 @@ class CartPage extends StatelessWidget {
               ),
               ItemPedidoComponent(
                 quantidade: 1,
-                descricao: 'Corte cabelo + barba',
-                valor: 25.50,
-                date: '12:00 - 13:00',
-                profissional: 'Alexandre',
+                descricao: controller.pedido.value?.itemsPedido.first.servicoModel.resumo ?? '',
+                valor: controller.pedido.value?.itemsPedido.first.servicoModel.valor,
+                date:
+                    '${controller.pedido.value?.horarioMarcado.hour}:${controller.pedido.value?.horarioMarcado.minute} - ${DateFormat('dd/MM/yyyy').format(controller.pedido.value!.diaMarcado)}',
+                profissional: controller.pedido.value?.itemsPedido.first.profissionalModel.nome,
               ),
               Divider(
                 thickness: 1,
@@ -171,7 +185,7 @@ class CartPage extends StatelessWidget {
                             color: cinzaPadrao,
                           ),
                           TextComponent(
-                            'R\$ 51.00',
+                            'R\$ ${controller.subtotal().toStringAsFixed(2)}',
                             color: cinzaPadrao,
                           ),
                         ],
@@ -200,7 +214,7 @@ class CartPage extends StatelessWidget {
                             color: fontColor,
                           ),
                           TextComponent(
-                            'R\$ 51.00',
+                            'R\$ ${controller.pedido.value?.valorPedido?.toStringAsFixed(2)}',
                             color: fontColor,
                           ),
                         ],
@@ -209,112 +223,12 @@ class CartPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Divider(
-                thickness: 1,
-                color: lineColor,
-              ),
               Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Row(
-                      children: [
-                        TextComponent(
-                          'Forma de Pagamento',
-                          color: fontColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
-                    ),
-                  ),
                   Obx(
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: Get.width / 2,
-                          child: GestureDetector(
-                            onTap: () {
-                              showModalBottomSheet(
-                                  context: context,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
-                                  ),
-                                  elevation: 0,
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      height: Get.height / 2,
-                                      child: ListView.builder(
-                                        itemCount: 1,
-                                        itemBuilder: ((context, index) {
-                                          return ListTile(
-                                            leading: Icon(
-                                              Icons.payments_outlined,
-                                              color: greenMoney,
-                                            ),
-                                            title: new Text('Pagamento em dinheiro'),
-                                            onTap: () {
-                                              controller.selectedPaymentForm.value = PaymentForm(id: 1, title: 'Dinheiro');
-                                              Get.back();
-                                            },
-                                          );
-                                        }),
-                                      ),
-                                    );
-                                  });
-                            },
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    decoration:
-                                        BoxDecoration(borderRadius: BorderRadius.circular(80), color: backgroundFieldColor),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Padding(
-                                              padding: EdgeInsets.symmetric(horizontal: 8),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      TextComponent(
-                                                        controller.selectedPaymentForm.value == null
-                                                            ? 'Selecione'
-                                                            : '${controller.selectedPaymentForm.value?.title ?? ''}',
-                                                        color: fontColor,
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 12,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                size: 25,
-                                                Icons.keyboard_arrow_down,
-                                                color: fontColor,
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                         controller.selectedPaymentForm.value != null
                             ? Row(
                                 children: [

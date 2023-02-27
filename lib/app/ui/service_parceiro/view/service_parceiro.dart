@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:wapper/app/data/model/empresaModel.dart';
 
 import 'package:wapper/app/data/model/servicoModel.dart';
 import 'package:wapper/app/ui/components/app_bar_component.dart';
@@ -12,11 +13,12 @@ import 'package:wapper/app/ui/theme/styles.dart';
 
 class ServicoParceiro extends StatelessWidget {
   final ServicoModel servico;
-  const ServicoParceiro({Key? key, required this.servico}) : super(key: key);
+  final EmpresaModel empresa;
+  const ServicoParceiro({Key? key, required this.servico, required this.empresa}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ServiceParceiroController(servico: servico));
+    final controller = Get.put(ServiceParceiroController(servico: servico, empresa: empresa));
     return Scaffold(
       appBar: AppBarComponent(
         textComponent: const TextComponent(
@@ -465,7 +467,6 @@ class ServicoParceiro extends StatelessWidget {
                   titulo: 'Confirmar',
                   onPressed: () {
                     controller.confirmar();
-                    // Get.toNamed('/cart-page');
                   },
                 ),
               )

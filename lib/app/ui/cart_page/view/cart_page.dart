@@ -7,7 +7,6 @@ import 'package:wapper/app/ui/components/app_bar_component.dart';
 import 'package:wapper/app/ui/components/button_component.dart';
 import 'package:wapper/app/ui/components/item_pedido_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
-import 'package:wapper/app/ui/root/view/root.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
 class CartPage extends StatelessWidget {

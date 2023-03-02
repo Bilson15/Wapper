@@ -31,7 +31,7 @@ class PedidoModel {
     this.diaMarcado = json['dia_marcado'];
     this.observacao = json['observacao'];
     this.cliente = ClienteModel.fromJson(json['cliente']);
-    this.itemsPedido = json['items_pedido'] != null
+    this.itemsPedido = json['itemPedido'] != null
         ? json['items_pedido'].map<ItemPedidoModel>((data) {
             return ItemPedidoModel.fromJson(data);
           }).toList()
@@ -47,7 +47,7 @@ class PedidoModel {
     data['dia_marcado'] = this.diaMarcado.toString();
     data['observacao'] = this.observacao;
     data['cliente'] = this.cliente.toJson();
-    data['items_pedido'] = this.itemsPedido.map((e) => e.toJson()).toList();
+    data['itemPedido'] = this.itemsPedido.map((e) => e.toJson()).toList();
     return data;
   }
 }

@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:table_calendar/table_calendar.dart';
 import 'package:wapper/app/data/model/empresaModel.dart';
 import 'package:wapper/app/data/model/itemPedido.dart';
 import 'package:wapper/app/data/model/pedidoModel.dart';
 import 'package:wapper/app/data/model/profissionalModel.dart';
-import 'dart:developer' as lg;
 import 'package:wapper/app/data/model/servicoModel.dart';
 import 'package:wapper/app/ui/cart_page/controller/cart_controller.dart';
 import 'package:wapper/app/ui/cart_page/view/cart_page.dart';
@@ -79,6 +75,7 @@ class ServiceParceiroController extends GetxController {
             cliente: cartController.clienteLogado.value!,
             observacao: observacao.text,
             valorPedido: servico.valor,
+            status: PedidoStatusEnum.criado,
             empresa: empresa,
             itemsPedido: [
               ItemPedidoModel(servicoModel: servico, profissionalModel: profissionalSelecionado.value!, valorItem: servico.valor)
@@ -86,7 +83,6 @@ class ServiceParceiroController extends GetxController {
           );
 
           Get.to(CartPage(pedido: pedido));
-          lg.log(jsonEncode(pedido.toJson()));
         }
       }
     }

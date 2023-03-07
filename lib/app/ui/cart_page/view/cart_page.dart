@@ -254,8 +254,8 @@ class CartPage extends StatelessWidget {
                 child: ButtonComponent(
                   backgroundColor: azulPadrao,
                   titulo: 'Finalizar',
-                  onPressed: () {
-                    Get.toNamed('/info-pedido');
+                  onPressed: () async {
+                    await controller.criarPedido();
                   },
                 ),
               )

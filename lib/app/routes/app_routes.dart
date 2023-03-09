@@ -59,10 +59,6 @@ class AppRoutes {
       page: () => const AppConfiguration(),
     ),
     GetPage(
-      name: '/info-pedido',
-      page: () => InfoPedido(),
-    ),
-    GetPage(
       name: '/feedback-page',
       page: () => FeedBackPage(),
     ),

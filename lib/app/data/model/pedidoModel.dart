@@ -6,7 +6,8 @@ import 'package:wapper/app/data/model/itemPedido.dart';
 
 enum PedidoStatusEnum {
   criado(0),
-  finalizado(1);
+  finalizado(1),
+  cancelado(2);
 
   const PedidoStatusEnum(this.value);
   final int value;
@@ -41,6 +42,7 @@ class PedidoModel {
     this.horarioMarcado = _fromTimeOfDay(json);
     this.diaMarcado = _fromDateTime(json);
     this.observacao = json['observacao'];
+    this.empresa = EmpresaModel.fromJson(json['empresa']);
     this.status = statusHelper(json['status']);
     this.cliente = ClienteModel.fromJson(json['cliente']);
     this.itemsPedido = json['itemPedido'] != null
@@ -79,6 +81,7 @@ class PedidoModel {
     data['valor_pedido'] = this.valorPedido;
     data['horario_marcado'] = '${this.horarioMarcado.hour}:${this.horarioMarcado.minute}:00';
     data['dia_marcado'] = DateFormat('yyyy-MM-dd').format(this.diaMarcado);
+    data['empresa'] = this.empresa.toJson();
     data['observacao'] = this.observacao;
     data['status'] = this.status.value;
     data['cliente'] = this.cliente.toJson();
@@ -92,6 +95,8 @@ class PedidoModel {
         return PedidoStatusEnum.criado;
       case 1:
         return PedidoStatusEnum.finalizado;
+      case 2:
+        return PedidoStatusEnum.cancelado;
       default:
         return PedidoStatusEnum.criado;
     }

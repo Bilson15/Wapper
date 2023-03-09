@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wapper/app/data/model/pedidoModel.dart';
 import 'package:wapper/app/ui/components/app_bar_component.dart';
 import 'package:wapper/app/ui/components/button_component.dart';
 import 'package:wapper/app/ui/components/item_pedido_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
+import 'package:wapper/app/ui/info_pedido/controller/info_pedido_controller.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
 
 class InfoPedido extends StatelessWidget {
-  const InfoPedido({Key? key}) : super(key: key);
+  final PedidoModel pedido;
+  const InfoPedido({
+    Key? key,
+    required this.pedido,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(InfoPedidoController(pedido: pedido));
     return Scaffold(
       appBar: AppBarComponent(
         textComponent: const TextComponent(
@@ -25,22 +32,31 @@ class InfoPedido extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Container(
-                    width: 55,
-                    height: 55,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(
-                            "https://img.elo7.com.br/product/zoom/2E9706C/logotipo-personalizada-barbearia-arte-digital-tesoura.jpg"),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Container(
+                      height: 55,
+                      width: 55,
+                      color: azulPadrao,
+                      child: Center(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextComponent(
+                              '${controller.pedido.empresa.razaoSocial?.split(' ').first[0].toUpperCase()}',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: TextComponent(
-                      'Barbearia do zé',
+                      controller.pedido.empresa.razaoSocial ?? '',
                       color: black,
                       fontWeight: FontWeight.bold,
                     ),
@@ -52,7 +68,7 @@ class InfoPedido extends StatelessWidget {
               ),
               Chip(
                 label: TextComponent(
-                  'Pedido concluído em 26 Janeiro 2022 - 16:43',
+                  'Seu pedido está ${controller.getStatusPedido()}',
                   color: cinzaPadrao,
                   fontSize: 14 * Get.textScaleFactor,
                 ),
@@ -68,7 +84,7 @@ class InfoPedido extends StatelessWidget {
               Row(
                 children: [
                   TextComponent(
-                    'Pedido nº 6545',
+                    'Pedido nº ${controller.pedido.idPedido}',
                     fontWeight: FontWeight.w600,
                     color: fontColor,
                   )
@@ -80,16 +96,17 @@ class InfoPedido extends StatelessWidget {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: 2,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.pedido.itemsPedido.length,
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
                       ItemPedidoComponent(
                         quantidade: 1,
-                        descricao: 'Corte cabelo + barba',
-                        valor: 25.50,
-                        date: '12:00 - 13:00',
-                        profissional: 'Alexandre',
+                        descricao: controller.pedido.itemsPedido[index].servicoModel.resumo,
+                        valor: controller.pedido.itemsPedido[index].servicoModel.valor,
+                        date: controller.pedido.horarioMarcado.format(context),
+                        profissional: controller.pedido.itemsPedido[index].profissionalModel.nome,
                       ),
                     ],
                   );
@@ -111,7 +128,7 @@ class InfoPedido extends StatelessWidget {
                           color: cinzaPadrao,
                         ),
                         TextComponent(
-                          'R\$ 51.00',
+                          'R\$ ${(controller.pedido.valorPedido ?? 0).toStringAsFixed(2)}',
                           color: cinzaPadrao,
                         ),
                       ],
@@ -140,7 +157,7 @@ class InfoPedido extends StatelessWidget {
                           color: fontColor,
                         ),
                         TextComponent(
-                          'R\$ 51.00',
+                          'R\$ ${(controller.pedido.valorPedido ?? 0).toStringAsFixed(2)}',
                           color: fontColor,
                         ),
                       ],
@@ -148,45 +165,49 @@ class InfoPedido extends StatelessWidget {
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  Divider(
-                    thickness: 1,
-                    color: lineColor,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextComponent(
-                          'Pagamento',
-                          color: cinzaPadrao,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.payments_outlined,
-                              color: greenMoney,
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            TextComponent(
-                              'Dinheiro',
-                              fontWeight: FontWeight.bold,
-                              color: fontColor,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    color: lineColor,
-                  ),
-                ],
+              // Column(
+              //   children: [
+              //     Divider(
+              //       thickness: 1,
+              //       color: lineColor,
+              //     ),
+              //     Padding(
+              //       padding: const EdgeInsets.symmetric(vertical: 4),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           TextComponent(
+              //             'Pagamento',
+              //             color: cinzaPadrao,
+              //           ),
+              //           Row(
+              //             children: [
+              //               Icon(
+              //                 Icons.payments_outlined,
+              //                 color: greenMoney,
+              //               ),
+              //               const SizedBox(
+              //                 width: 4,
+              //               ),
+              //               TextComponent(
+              //                 'Dinheiro',
+              //                 fontWeight: FontWeight.bold,
+              //                 color: fontColor,
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Divider(
+              //       thickness: 1,
+              //       color: lineColor,
+              //     ),
+              //   ],
+              // ),
+              Divider(
+                thickness: 1,
+                color: lineColor,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -208,7 +229,7 @@ class InfoPedido extends StatelessWidget {
                     Row(
                       children: [
                         TextComponent(
-                          'R. 25 D, 845 - Qd 168 Lt 61',
+                          '${controller.pedido.empresa.endereco?.first.logradouro ?? ''} - nº ${controller.pedido.empresa.endereco?.first.numero ?? ''}  \n${controller.pedido.empresa.endereco?.first.complemento ?? ''}',
                           color: cinzaPadrao,
                         ),
                       ],
@@ -216,7 +237,7 @@ class InfoPedido extends StatelessWidget {
                     Row(
                       children: [
                         TextComponent(
-                          'St. Garavelo - Aparecida de goiânia',
+                          '${controller.pedido.empresa.endereco?.first.bairro ?? ''}',
                           color: cinzaPadrao,
                         ),
                       ],

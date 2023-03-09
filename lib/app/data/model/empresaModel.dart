@@ -61,7 +61,7 @@ class EmpresaModel {
     _data['cnpj'] = cnpj;
     _data['ramoAtividade'] = ramoAtividade;
     _data['statusEmpresa'] = statusEmpresa;
-    _data['telefoneCliente'] = this.endereco != null ? this.telefoneCliente!.map((e) => e.toJson()).toList() : null;
+    _data['telefoneCliente'] = this.telefoneCliente != null ? this.telefoneCliente!.map((e) => e.toJson()).toList() : null;
     _data['endereco'] = this.endereco != null ? this.endereco!.map((e) => e.toJson()).toList() : null;
     _data['servico'] = this.servicos != null ? this.servicos!.map((e) => e.toJson()).toList() : null;
     return _data;

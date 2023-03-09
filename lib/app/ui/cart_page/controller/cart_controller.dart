@@ -33,7 +33,9 @@ class CartController extends GetxController {
 
         if (pedidoCriado.idPedido != null) {
           Get.close(3);
-          Get.to(InfoPedido());
+          Get.to(InfoPedido(
+            pedido: pedidoCriado,
+          ));
         }
       } catch (e) {
         Notificacao.snackBar(e.toString());

@@ -1,12 +1,15 @@
 class PageModel {
   int pageNumber = 0;
+  bool isEmpty = false;
 
   PageModel({
     this.pageNumber = 0,
+    this.isEmpty = false,
   });
 
   PageModel.fromJson(Map<String, dynamic> json) {
-    pageNumber = json['pageNumber'];
+    pageNumber = json['pageable']['pageNumber'];
+    isEmpty = json['empty'];
   }
 
   more() {

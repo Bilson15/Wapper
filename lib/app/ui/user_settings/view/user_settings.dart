@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:wapper/app/ui/components/menu_settings_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
+import 'package:wapper/app/ui/user_settings/controller/user_settings.dart';
 import 'package:wapper/app/ui/utils/utils.dart';
 
 class UserSettings extends StatelessWidget {
@@ -12,6 +11,7 @@ class UserSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<UserSettingsController>(tag: 'user_settings');
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -36,7 +36,7 @@ class UserSettings extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextComponent(
-                    'Gabriel Felipe',
+                    '${controller.cartController.clienteLogado.value?.nome ?? ''}',
                     color: black,
                     fontWeight: FontWeight.bold,
                   ),

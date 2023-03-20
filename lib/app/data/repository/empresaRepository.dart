@@ -13,7 +13,7 @@ class EmpresaRepository {
 
   Future<List> buscarEmpresas(int pagina) async {
     Map<String, String> queryParameters = {
-      'page': pagina.toString(),
+      'page': '$pagina',
     };
 
     var response = await api.get('/empresa', queryParameters: queryParameters);
@@ -23,7 +23,7 @@ class EmpresaRepository {
 
       List<EmpresaModel> empresas = data['content'].map<EmpresaModel>((data) => EmpresaModel.fromJson(data)).toList();
 
-      PageModel pagina = PageModel.fromJson(data['pageable']);
+      PageModel pagina = PageModel.fromJson(data);
       return [empresas, pagina];
     } else {
       var error = json.decode(response.body)['error'];

@@ -7,6 +7,7 @@ import 'package:wapper/app/ui/components/item_pedido_component.dart';
 import 'package:wapper/app/ui/components/text_component.dart';
 import 'package:wapper/app/ui/info_pedido/controller/info_pedido_controller.dart';
 import 'package:wapper/app/ui/theme/styles.dart';
+import 'package:wapper/app/ui/utils/utils.dart';
 
 class InfoPedido extends StatelessWidget {
   final PedidoModel pedido;
@@ -68,7 +69,7 @@ class InfoPedido extends StatelessWidget {
               ),
               Chip(
                 label: TextComponent(
-                  'Seu pedido está ${controller.getStatusPedido()}',
+                  'Seu pedido está ${Utils.getStatusPedido(controller.pedido)}',
                   color: cinzaPadrao,
                   fontSize: 14 * Get.textScaleFactor,
                 ),

@@ -46,4 +46,25 @@ class EmpresaRepository {
       throw error;
     }
   }
+
+  Future<List> buscaPorTermo(String termo, int pagina) async {
+    Map<String, String> queryParameters = {
+      'page': '$pagina',
+      'term': '$termo',
+    };
+
+    var response = await api.get('/empresa/search', queryParameters: queryParameters);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+
+      List<EmpresaModel> empresas = data['content'].map<EmpresaModel>((data) => EmpresaModel.fromJson(data)).toList();
+
+      PageModel pagina = PageModel.fromJson(data);
+      return [empresas, pagina];
+    } else {
+      var error = json.decode(response.body)['error'];
+      throw error;
+    }
+  }
 }

@@ -50,6 +50,18 @@ class HistoricoPedidos extends StatelessWidget {
                   ],
                 ),
               ),
+              controller.listPedido.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 48),
+                      child: TextComponent(
+                        'Você ainda não realizou nenhum agendamento',
+                        textAlign: TextAlign.center,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: backgroundFieldColor,
+                      ),
+                    )
+                  : SizedBox.shrink(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: ListView(
@@ -183,7 +195,7 @@ class HistoricoPedidos extends StatelessWidget {
                   }).toList(),
                 ),
               ),
-              !controller.loading.value
+              !controller.loading.value && controller.listPedido.isNotEmpty && !controller.pagina.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: SizedBox(
